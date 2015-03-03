@@ -38,7 +38,6 @@ app.controller('schedulerCtrl', function($scope, $http) {
 		  			title: 'hello',
 		  			start: "2015-03-02T14:00:00-08:00",
 		  			end: "2015-03-02T14:20:00-08:00",
-		  			
 		  			allDay: false,
 		  		});
 		  	});
