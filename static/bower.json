@@ -1,0 +1,17 @@
+{
+  "name": "scheduler_frontend",
+  "version": "0.0.0",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-calendar": "~0.8.1",
+    "moment": "~2.9.0"
+  }
+}
