@@ -5,6 +5,7 @@
   <script type="text/javascript" src="/scheduler/static/bower_components/fullcalendar/fullcalendar.js"></script>
   <script type="text/javascript" src="/scheduler/static/bower_components/fullcalendar/gcal.js"></script>
   <script type="text/javascript" src="/scheduler/static/bower_components/moment/moment.js"></script>
+  <script type="text/javascript" src="/scheduler/static/bower_components/angular-ui.js"></script>
   <script type="text/javascript" src="/scheduler/static/js/app.js"></script>
   
 
@@ -20,9 +21,11 @@
     </ul>
 
     <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
-
     <h2>Classes</h2>
     {{=form1}}
+
+    <h2>Class-Timeslots</h2>
+    {{=form4}}
 
     <h2>Teachers</h2>
     {{=form2}}

@@ -20,21 +20,31 @@ def index():
     return auth.wiki()
     """
     form1 = SQLFORM.grid(db.klass)
+    form4 = SQLFORM.grid(db.class_timeslot)
     form2 = SQLFORM.grid(db.teacher)
     form3 = SQLFORM.grid(db.timeslot)
     return locals()
 
 def getTimeslots():
   if request.env.request_method!='GET': raise HTTP(400)
-  timeslots = db(db.timeslot).select()
+  klass_timeslots = db(db.class_timeslot).select()
   timeslotList = []
-  for timeslot in timeslots:
+  for k in klass_timeslots:
+    t_id = k.timeslot_id
+    k_id = k.klass_id
+    timeslot = db(db.timeslot.id == t_id).select().first()
+    klass = db(db.klass.id == k_id).select().first()
+    teacher_id = db(db.teacher_class.klass_id == k_id).select().first().teacher_id
+    teacher = db(db.teacher.id == teacher_id).select().first().name
     timeslotDict = {
+      "title":klass.title,
+      "teacher":teacher,
       "meet_day":timeslot.meet_day,
       "start_time":timeslot.start_time.isoformat(),
       "end_time":timeslot.end_time.isoformat(),
     }
     timeslotList.append(timeslotDict)   
+    print(timeslotList)
   return json.dumps(timeslotList)
 
 def user():

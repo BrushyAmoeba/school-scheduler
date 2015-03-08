@@ -1,4 +1,4 @@
-var app = angular.module('scheduler', ['ui.calendar']);
+var app = angular.module('scheduler', ['ui.directives']);
 
 app.config(['$interpolateProvider',
   function($interpolateProvider) {
@@ -8,46 +8,53 @@ app.config(['$interpolateProvider',
 ]);
 
 
+
 app.controller('schedulerCtrl', function($scope, $http) {
 	/* config object */
-	$scope.events = [
-			{
-				title: 'Test',
-				start: new Date(2015,2,1),
-			},
-			{
-				title: 'Test2',
-				start: new Date(2015,3,1),
-			}
-		];
+	$scope.events = [];
 	$scope.eventSources = [
 		$scope.events,
 	];
 
-	$http.get('getTimeslots')
-		.success(function(data, status, headers, config) {
-		  	$scope.eventSources = [];
-		  	events = [];
-		  	startOfWeek = moment().startOf('week');
-		  	angular.forEach(data,function(evt){
-		  		day = startOfWeek.add(evt.meet_day, 'days');
-		  		console.log(evt);
-		  		start = moment(day.format('YYYY-MM-DD:Z') + ' ' + evt.start_time, 'YYYY-MM-DD:Z H:mm:ss');
-		  		console.log(start.format());
-		  		events.push({
-		  			title: 'hello',
-		  			start: "2015-03-02T14:00:00-08:00",
-		  			end: "2015-03-02T14:20:00-08:00",
-		  			allDay: false,
-		  		});
-		  	});
-		  	$scope.eventSources.push(events);
-		});
-
 	$scope.uiConfig = {
 	  calendar:{
-	    height: 500,
-	    defaultView: 'agendaWeek',
+		defaultView: 'agendaWeek',
+	    minTime: '8:00 am',
+	    maxTime: '8:00 pm',
+	    header:{
+	      left: '',
+	      center: '',
+	      right: '',
+        },
+        contentHeight: 1500,
+	    weekMode: 'liquid',
+	    editable: false,
+	    allDaySlot: false,
+		viewRender: function(view, element) {
+			$http.get('getTimeslots')
+				.success(function(data, status, headers, config) {
+				  	view.calendar.removeEventSource($scope.events);
+				  	$scope.events.splice(0);
+				  	angular.forEach(data,function(evt){
+				  		startOfWeek = moment().startOf('week');
+				  		title = evt.title,
+				  		day = startOfWeek.add(evt.meet_day, 'days');
+				  		start = moment(day.format('YYYY-MM-DD:Z') + ' ' + evt.start_time, 'YYYY-MM-DD:Z H:mm:ss');
+				  		end = moment(day.format('YYYY-MM-DD:Z') + ' ' + evt.end_time, 'YYYY-MM-DD:Z H:mm:ss');
+				  		$scope.events.push({
+				  			title: title,
+				  			description: evt.teacher,
+				  			start: start.format(),
+				  			end: end.format(),
+				  			allDay: false,
+				  		});
+				  	});
+				  	view.calendar.addEventSource($scope.events);
+				});  
+	  	},
+        eventRender: function(event, element) { 
+            element.find('.fc-event-title').append('<div class="eventDescription">' + event.description + '</div>'); 
+        },
 	  }
 	};
 });
