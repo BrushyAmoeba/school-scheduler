@@ -19,10 +19,7 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    form1 = SQLFORM.grid(db.klass)
-    form4 = SQLFORM.grid(db.class_timeslot)
-    form2 = SQLFORM.grid(db.teacher)
-    form3 = SQLFORM.grid(db.timeslot)
+
     return locals()
 
 def getTimeslots():

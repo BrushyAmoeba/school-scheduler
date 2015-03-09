@@ -14,23 +14,9 @@
 {{end}}
 
 {{block center}}
-  <div ng-app="scheduler" ng-controller="schedulerCtrl" ng-cloak>
-   
-    <ul ng-repeat="event in events">
-      <li>{[{event.start | date:'medium'}]}-{[{event.end | date:'medium'}]}</li>
-    </ul>
+  <div id="ourCal" ng-app="scheduler" ng-controller="schedulerCtrl" ng-cloak>
 
     <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
-    <h2>Classes</h2>
-    {{=form1}}
 
-    <h2>Class-Timeslots</h2>
-    {{=form4}}
-
-    <h2>Teachers</h2>
-    {{=form2}}
-
-    <h2>Timeslots</h2>
-    {{=form3}}
   </div>
 {{end}}

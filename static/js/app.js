@@ -26,8 +26,7 @@ app.controller('schedulerCtrl', function($scope, $http) {
 	      center: '',
 	      right: '',
         },
-        contentHeight: 1500,
-	    weekMode: 'liquid',
+        height: 1000,
 	    editable: false,
 	    allDaySlot: false,
 		viewRender: function(view, element) {
