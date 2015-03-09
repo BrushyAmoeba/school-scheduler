@@ -8,14 +8,22 @@
   <script type="text/javascript" src="/scheduler/static/bower_components/angular-ui.js"></script>
   <script type="text/javascript" src="/scheduler/static/js/app.js"></script>
   
+  <script>var classes = {{=XML(classList)}};</script>
 
 
   <link rel="stylesheet" href="/scheduler/static/bower_components/fullcalendar/fullcalendar.css"/>
 {{end}}
 
 {{block center}}
-  <div id="ourCal" ng-app="scheduler" ng-controller="schedulerCtrl" ng-cloak>
 
+  <div id="search">
+      <h3>Add Class</h3>
+      <input id="searchfield" type="text"></input>
+      <button id="searchbtn" class="btn btn-primary">Add</button>
+  </div>
+
+  <div id="ourCal" ng-app="scheduler" ng-controller="schedulerCtrl" ng-cloak>    
+    <h3>My Schedule</h3>
     <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
 
   </div>

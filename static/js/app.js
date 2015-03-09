@@ -7,14 +7,25 @@ app.config(['$interpolateProvider',
   }
 ]);
 
-
-
 app.controller('schedulerCtrl', function($scope, $http) {
+    $( "#search input" ).autocomplete({
+      source: classes
+    });
+    $(document).ready(function(){
+      $(document).on('keyup', '#searchfield', function(event){
+        if (event.which==13){
+          $('#searchbtn').click();
+          $('#searchfield').val('');
+          $('.ui-autocomplete').hide();
+        }
+      });
+    });
 	/* config object */
 	$scope.events = [];
 	$scope.eventSources = [
 		$scope.events,
 	];
+	$scope.klasses = [];
 
 	$scope.uiConfig = {
 	  calendar:{
@@ -26,7 +37,7 @@ app.controller('schedulerCtrl', function($scope, $http) {
 	      center: '',
 	      right: '',
         },
-        height: 1000,
+        contentHeight: 1000,
 	    editable: false,
 	    allDaySlot: false,
 		viewRender: function(view, element) {

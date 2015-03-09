@@ -26,7 +26,7 @@ db.define_table('class_timeslot',
 
 
 db.define_table('class_student',
-    Field('student_id', db.auth_user),
+    Field('student', db.auth_user),
     Field('klass_id', 'reference klass'),
     )
 
