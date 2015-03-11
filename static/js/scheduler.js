@@ -20,12 +20,7 @@ app.controller('schedulerCtrl', function($scope, $http) {
         }
       });
     });
-    $scope.loadSection = function(section){
-      $scope.section = section;
-    }
-    $scope.checkSection = function(section){
-      return $scope.section==section;
-    }
+
 	/* config object */
 	$scope.events = [];
 	$scope.eventSources = [

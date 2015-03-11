@@ -13,11 +13,7 @@ import json
 
 def index():
     """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
-
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
+    Index: shows user schedules
     """
     classList = []
     for c in db(db.klass).select():
@@ -25,8 +21,51 @@ def index():
 
     return locals()
 
-def network():
+def manage():
+    """
+    Network: create network
+    """
+    networks = []
+    for network in db(db.network).select():
+        networks.append({
+            "id": str(network.id),
+            "title": network.title,
+            })
     return locals()
+
+def viewNetwork():
+    if request.env.request_method!='GET': raise HTTP(400)
+    network_id =request.vars.id
+    terms = db(db.network_term.network_id==network_id).select()
+    termList = []
+    for t in terms:
+        term = db(db.term.id==t.term_id).select().first()
+        termList.append({
+            "id": str(term.id),
+            "title":term.title,
+        })
+    return json.dumps(termList)
+
+def createNetwork():
+    if request.env.request_method!='POST': raise HTTP(400)
+    post = request.post_vars
+    db.network.insert(title = post.title)
+    response = {
+        'id': str(post.id),
+        'title': post.title, 
+    }
+    return json.dumps(response)
+
+def createTerm():
+    if request.env.request_method!='POST': raise HTTP(400)
+    post = request.post_vars
+    term = db.term.insert(title = post.title)
+    db.network_term.insert(network_id = post.network_id, term_id = term.id)
+    response = {
+        'id': str(post.id),
+        'title': post.title,
+    }
+    return json.dumps(response)
 
 
 def getTimeslots():
@@ -53,51 +92,3 @@ def getTimeslots():
         timeslotList.append(timeslotDict)
   return json.dumps(timeslotList)
 
-def user():
-    """
-    exposes:
-    http://..../[app]/default/user/login
-    http://..../[app]/default/user/logout
-    http://..../[app]/default/user/register
-    http://..../[app]/default/user/profile
-    http://..../[app]/default/user/retrieve_password
-    http://..../[app]/default/user/change_password
-    http://..../[app]/default/user/manage_users (requires membership in
-    use @auth.requires_login()
-        @auth.requires_membership('group name')
-        @auth.requires_permission('read','table name',record_id)
-    to decorate functions that need access control
-    """
-    return dict(form=auth())
-
-
-@cache.action()
-def download():
-    """
-    allows downloading of uploaded files
-    http://..../[app]/default/download/[filename]
-    """
-    return response.download(request, db)
-
-
-def call():
-    """
-    exposes services. for example:
-    http://..../[app]/default/call/jsonrpc
-    decorate with @services.jsonrpc the functions to expose
-    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
-    """
-    return service()
-
-
-@auth.requires_login() 
-def api():
-    """
-    this is example of API with access control
-    WEB2PY provides Hypermedia API (Collection+JSON) Experimental
-    """
-    from gluon.contrib.hypermedia import Collection
-    rules = {
-        '<tablename>': {'GET':{},'POST':{},'PUT':{},'DELETE':{}},
-        }
-    return Collection(db).process(request,response,rules)
