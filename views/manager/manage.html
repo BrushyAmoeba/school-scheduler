@@ -17,7 +17,7 @@
 	      <input type="text"></input>
 	      <button class="btn btn-success" ng-click="createNetwork();">Create Network</button>
 	      <ul>
-	      	<li ng-repeat="network in networks" ng-click="viewNetwork(network.id);">{[{network.title}]}</li>
+	      	<li ng-repeat="network in networks" ng-click="viewNetwork(network.network_id);">{[{network.title}]}</li>
 	  	  </ul>
 	</div>
 
@@ -27,7 +27,7 @@
 	      <input type="text"></input>
 	      <button class="btn btn-success" ng-click="createTerm();">Create Term</button>
 	      <ul>
-	      	<li ng-repeat="term in terms">{[{term.title}]}</li>
+	      	<li ng-repeat="term in terms" ng-click="viewTerm(term.term_id);">{[{term.title}]}</li>
 	  	  </ul>
 	</div>
 
@@ -35,40 +35,43 @@
 		<h4><a ng-click="loadSection('network')">Network</a> >> <a ng-click="loadSection('term')">Term</a></h4>
 		<h3> Classes in Spring 2015</h3>
 		<ul>
-			<li><a>Computer Science 69</a></li>
-			<li><a>Art History LOL</a></li>
-			<li><a>Computer Science 183</a></li>
+			<li ng-repeat="klass in klasses" ng-click="viewKlass(klass.klass_id);">{[{klass.title}]}</li>
 		</ul>
 	  	<button class="btn btn-primary" ng-click="loadSection('createclass');">Add a New Class</button>
 	</div>
 
 	<div id="timeslot" ng-show="checkSection('timeslot');">
-		<h3>Timeslot</h3>
-	      <input placeholder="start" type="text"></input><br>
-	      <input placeholder="end" type="text"></input><br>
+		<h4>
+			<a ng-click="loadSection('network')">Network</a> >> <a ng-click="loadSection('term')">Term</a>
+		  	>> <a ng-click="loadSection('class')">Classes</a>
+		</h4>
+		<h3>Timeslots for </h3>
+	    <input placeholder="start" type="text"></input><br>
+	    <input placeholder="end" type="text"></input><br>
 	      
-	      <select>
-	      	<option>Monday</option>
+	    <select>
+	    	<option>Monday</option>
 	      	<option>Tuesday</option>
 	      	<option>Wednesday</option>
 	      	<option>Thursday</option>
 	      	<option>Friday</option>
-	      </select><br>
-	      
-	      <button class="btn btn-success" ng-click="loadSection('createclass')">Add Timeslot</button>
+	    </select><br>
+	    <button class="btn btn-success" ng-click="loadSection('createclass')">Add Timeslot</button><br>
+		<ul>
+			<li ng-repeat="timeslot in timeslots">{[{timeslot.meet_day}]}</li>
+		</ul>       
 	</div>
+
 	<div id="createClass" ng-show="checkSection('createclass');">
-		  <h3>Create Class</h3>
-	      <input placeholder="Title:" type="text"></input><br>
-	      <input placeholder="Teacher:" type="text"></input><br>
-	      Timeslots:
-	      <ul>
-	      	<li> timeslot 1 </li>
-	      	<li> timeslot 2 </li>
-	      	<li> timeslot 3 </li>
-	  	  </ul>
-	  	  <button class="btn btn-primary" ng-click="loadSection('timeslot')">Add Timeslot</button>
-	  	  <button class="btn btn-success" ng-click="loadSection('class')">Create Class</button> <br>
+		<h4>
+			<a ng-click="loadSection('network')">Network</a> >> <a ng-click="loadSection('term')">Term</a>
+			>> <a ng-click="loadSection('class')">Classes</a>
+		</h4>
+		<h3>Create Class</h3>
+		<input id="klasstitle" placeholder="Title:" type="text"></input><br>
+		<input id="teachername" placeholder="Teacher:" type="text"></input><br>
+		<button class="btn btn-success" ng-click="createKlass();">Create Class</button><br>
+		<button class="btn btn-primary" ng-click="loadSection('timeslot')">Add Timeslot</button><br> 
 	</div>
 </div>
 {{end}}
