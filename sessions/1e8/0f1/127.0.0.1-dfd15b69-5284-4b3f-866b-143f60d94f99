@@ -1,7 +1,9 @@
 €cgluon.globals
 Session
-q}q(Ulast_orderbyqNU
-last_queryqUdb.teacher.id>0qU_user_agentqcgluon.storage
+q}q(U
+last_queryqUdb.class_timeslot.id>0qU_user_agentqcgluon.storage
 Storage
-q}q(U	is_mobileq	‰U	is_tabletq
-‰Uosqh}qUnameqU	Macintoshqs…RqUflavorqh}q(UversionqUX 10.9qhUMacOSqu…RqUbrowserqh}q(hU36.0qhUFirefoxqu…Rqu…RqU_formkey[default]q]q(U$a3a3d211-de68-4f9b-a5a6-769bd27f9fbfqU$7c31b07e-61fa-487c-89aa-fd58733e16bbqU$9074f6f2-071a-4da1-a33d-35c10c9b8ca4q U$d151df55-1217-4d86-95b2-be43f91f5349q!U$05768ad5-5839-4f05-9fb2-9abcd4571bdaq"U$19905971-0126-438a-aee7-b3def8b992f7q#U$2cb7990c-f8e8-421f-bb39-4613e8c0202dq$U$3a7d9313-c113-4a62-9269-9c6636a750d5q%U$8a002f65-830c-48f0-bf1b-5357a32129e3q&U$683df8cd-d963-4759-a1f3-dd5b127b505dq'eUflashq(NU_formkey[teacher/2]q)]q*U$1f093ae2-7a32-409f-9b9d-96836e7228a6q+aU_formkey[timeslot/create]q,]q-U$4316a568-e601-41a4-957b-ec923f971540q.au…Rq/.
+q}q(Uosqh}q	Unameq
+U	Macintoshqs…RqU	is_tabletq‰U	is_mobileq‰Uflavorqh}q(UversionqUX 10.9qh
+UMacOSqu…RqUbrowserqh}q(hU36.0qh
+UFirefoxqu…Rqu…RqU_formkey[class_term/create]q]qU$9041c5cb-4359-49f9-99ab-0222b8199657qaU_formkey[teacher/2]q]qU$1f093ae2-7a32-409f-9b9d-96836e7228a6q aUflashq!NUlast_orderbyq"NU_formkey[timeslot/create]q#]q$U$4316a568-e601-41a4-957b-ec923f971540q%aU_formkey[default]q&]q'(U$2cb7990c-f8e8-421f-bb39-4613e8c0202dq(U$3a7d9313-c113-4a62-9269-9c6636a750d5q)U$8a002f65-830c-48f0-bf1b-5357a32129e3q*U$683df8cd-d963-4759-a1f3-dd5b127b505dq+U$0ddcdd27-d219-4609-9672-7b4e9b1143dbq,U$e7ac4916-500f-4feb-a26c-d75bd500f932q-U$1fcfe10b-f409-457c-881d-d0f026ef039dq.U$bbd476f2-9822-4540-9209-6d37f7be4035q/U$3f438373-04e1-40b5-9051-1690f6b29cc2q0U$cfa7df2b-26c5-43da-b2f3-bc83fbfe138aq1eu…Rq2.

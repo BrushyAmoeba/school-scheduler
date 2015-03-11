@@ -103,7 +103,7 @@ def viewKlass():
         timeslotList.append({
             "timeslot_id": str(timeslot.id),
             "meet_day":timeslot.meet_day,
-            "start_time":timeslot.start_time,
-            "end_time":timeslot.end_time,
+            "start_time":1,
+            "end_time":2,
         })
     return json.dumps(timeslotList)
