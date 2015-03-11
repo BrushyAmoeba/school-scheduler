@@ -16,14 +16,6 @@
 
 {{block center}}
 
-{{if auth.user:}}
-  <div id="search">
-      <h3>Add Class</h3>
-      <input id="searchfield" type="text"></input>
-      <button id="searchbtn" class="btn btn-primary">Add</button>
-  </div>
-{{pass}}
-
   <div id="ourCal" ng-app="scheduler" ng-controller="schedulerCtrl" ng-cloak>    
     <h3>My Schedule</h3>
     <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
