@@ -25,6 +25,10 @@ def index():
 
     return locals()
 
+def network():
+    return locals()
+
+
 def getTimeslots():
   if request.env.request_method!='GET': raise HTTP(400)
   me = auth.user_id

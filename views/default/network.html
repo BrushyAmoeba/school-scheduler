@@ -1,0 +1,73 @@
+{{extend 'layout.html'}}
+
+{{block head}}
+<script type="text/javascript" src="/scheduler/static/js/network.js"></script>
+{{end}}
+
+{{block center}}
+<div ng-app="network" ng-controller="networkCtrl" ng-init="loadSection('network');" >
+	<div ng-show="checkSection('network');">
+		<h3>Network</h3>
+	      <input type="text"></input>
+	      <button class="btn btn-success" ng-click="loadSection('term');">Create Network</button>
+	      <ul>
+	      	<li> <a ng-click="loadSection('term');">UCSC</a></li>
+	      	<li> <a ng-click="loadSection('term');">UCSB</a></li>
+	      	<li> <a ng-click="loadSection('term');">UCLA</a></li>
+	  	  </ul>
+	</div>
+
+	<div ng-show="checkSection('term');">
+		<h3><a ng-click="loadSection('network')">Network</a></h3>
+		<h3>Term</h3>
+	      <input type="text"></input>
+	      <button class="btn btn-success" ng-click="loadSection('class')">Create Term</button>
+	      <ul>
+	      	<li> <a ng-click="loadSection('class');">Spring 2015</a></li>
+	      	<li> <a ng-click="loadSection('class');">Summer 2015</a></li>
+	      	<li> <a ng-click="loadSection('class');">Fall 2015</a></li>
+	  	  </ul>
+	</div>
+
+	<div ng-show="checkSection('class');">
+		<h3><a ng-click="loadSection('network')">Network</a> >> <a ng-click="loadSection('term')">Term</a></h3>
+		<h3>Class</h3>
+	      <input placeholder="Title:" type="text"></input><br>
+	      <input placeholder="Teacher:" type="text"></input><br>
+	      Timeslots:
+	      <ul>
+	      	<li> timeslot 1 </li>
+	      	<li> timeslot 2 </li>
+	      	<li> timeslot 3 </li>
+	  	  </ul>
+	  	  <button class="btn btn-primary" ng-click="loadSection('timeslot')">Add Timeslot</button>
+	  	  <button class="btn btn-success" ng-click="loadSection('class')">Create Class</button> <br>
+	  	  <a ng-click="loadSection('classes');">View All Classes</a>
+	</div>
+
+	<div ng-show="checkSection('timeslot');">
+		<h3>Timeslot</h3>
+	      <input placeholder="start" type="text"></input><br>
+	      <input placeholder="end" type="text"></input><br>
+	      
+	      <select>
+	      	<option>Monday</option>
+	      	<option>Tuesday</option>
+	      	<option>Wednesday</option>
+	      	<option>Thursday</option>
+	      	<option>Friday</option>
+	      </select><br>
+	      
+	      <button class="btn btn-success" ng-click="loadSection('class')">Add Timeslot</button>
+	</div>
+	<div ng-show="checkSection('classes');">
+		<h3><a ng-click="loadSection('network')">Network</a> >> <a ng-click="loadSection('term')">Term</a> >> <a ng-click="loadSection('class')">Class</a></h3>
+		<h3> Classes in Spring 2015</h3>
+		<ul>
+			<li><a>Computer Science 69</a></li>
+			<li><a>Art History LOL</a></li>
+			<li><a>Computer Science 183</a></li>
+		</ul>
+	</div>
+</div>
+{{end}}

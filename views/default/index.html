@@ -6,7 +6,7 @@
   <script type="text/javascript" src="/scheduler/static/bower_components/fullcalendar/gcal.js"></script>
   <script type="text/javascript" src="/scheduler/static/bower_components/moment/moment.js"></script>
   <script type="text/javascript" src="/scheduler/static/bower_components/angular-ui.js"></script>
-  <script type="text/javascript" src="/scheduler/static/js/app.js"></script>
+  <script type="text/javascript" src="/scheduler/static/js/scheduler.js"></script>
   
   <script>var classes = {{=XML(classList)}};</script>
 
@@ -16,11 +16,13 @@
 
 {{block center}}
 
+{{if auth.user:}}
   <div id="search">
       <h3>Add Class</h3>
       <input id="searchfield" type="text"></input>
       <button id="searchbtn" class="btn btn-primary">Add</button>
   </div>
+{{pass}}
 
   <div id="ourCal" ng-app="scheduler" ng-controller="schedulerCtrl" ng-cloak>    
     <h3>My Schedule</h3>

@@ -30,3 +30,20 @@ db.define_table('class_student',
     Field('klass_id', 'reference klass'),
     )
 
+db.define_table('network',
+    Field('title'),
+    )
+
+db.define_table('term',
+    Field('title'),
+    )
+
+db.define_table('network_term',
+    Field('network_id', 'reference network'),
+    Field('term_id', 'reference term')
+    )
+
+db.define_table('class_term',
+    Field('klass_id', 'reference klass'),
+    Field('term_id', 'reference term')
+    )
