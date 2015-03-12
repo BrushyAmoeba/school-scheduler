@@ -93,6 +93,7 @@ app.controller('networkCtrl', function($scope, $http) {
           	end.val('');
   		});
     };
+    
     $scope.numToDay = function(num){
 		if(num==1){return 'Monday'}
 		else if(num==2){return 'Tuesday'}

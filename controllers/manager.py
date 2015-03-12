@@ -119,6 +119,7 @@ def createTimeslot():
     timeslot_id = db.timeslot.insert(meet_day = post.meet_day, start_time = start_time, end_time = end_time)
     db.class_timeslot.insert(timeslot_id = timeslot_id, klass_id = post.klass_id)
     response = {
+        'timeslot_id': str(timeslot_id),
         'meet_day': post.meet_day,
         'start_time': start_time.strftime('%I:%M %p'),
         'end_time': end_time.strftime('%I:%M %p'),

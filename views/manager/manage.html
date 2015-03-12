@@ -67,7 +67,8 @@
 	    <button class="btn btn-success" ng-click="createTimeslot();">Add Timeslot</button><br>
 		<ul>
 			<li ng-repeat="timeslot in timeslots">{[{numToDay(timeslot.meet_day)}]}:
-				{[{timeslot.start_time}]} - {[{timeslot.end_time}]}
+				{[{timeslot.start_time}]} - {[{timeslot.end_time}]} 
+				<a ng-click="deleteTimeslot(timeslot.timeslot_id);">delete</a>
 			</li>
 		</ul>       
 	</div>

@@ -1,3 +1,5 @@
+import json
+
 def index():
     """
     Index: shows user schedules
