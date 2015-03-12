@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.ValueError'> invalid literal for long() with base 10: 'undefined'"
+p3
+sS'layer'
+p4
+S'/Users/Nick/Desktop/cs183/web2py-1/applications/scheduler/controllers/schedule.py'
+p5
+sS'code'
+p6
+S'import json\n\ndef index():\n    """\n    Index: shows user schedules\n    """\n    classList = []\n    for c in db(db.klass).select():\n        classList.append(c.title)\n    networks = db(db.network).select()\n    return locals()\n\ndef getTerms():\n    if request.env.request_method!=\'GET\': raise HTTP(400)\n    network_id =request.vars.id\n    terms = db(db.network_term.network_id==network_id).select()\n    termList = []\n    for t in terms:\n        term = db(db.term.id==t.term_id).select().first()\n        termList.append({\n            "term_id": str(term.id),\n            "title":term.title,\n        })\n    return json.dumps(termList)\n\ndef getNetId():\n  if request.env.request_method!=\'GET\': raise HTTP(400)\n  network_title = request.vars.str\n  print(network_title)\n  print(network_id)\n  network_id = db(db.network.title==network_title).select().id\n  return network_id\n\ndef getTimeslots():\n  if request.env.request_method!=\'GET\': raise HTTP(400)\n  me = auth.user_id\n  student_classes = db(db.class_student.student == auth.user).select()\n  timeslotList = []\n  for c in student_classes:\n      klass_timeslots = db(db.class_timeslot.klass_id == c.klass_id).select()\n      for k in klass_timeslots:\n        t_id = k.timeslot_id\n        k_id = k.klass_id\n        timeslot = db(db.timeslot.id == t_id).select().first()\n        klass = db(db.klass.id == k_id).select().first()\n        teacher_id = db(db.teacher_class.klass_id == k_id).select().first().teacher_id\n        teacher = db(db.teacher.id == teacher_id).select().first().name\n        timeslotDict = {\n          "title":klass.title,\n          "teacher":teacher,\n          "meet_day":timeslot.meet_day,\n          "start_time":timeslot.start_time.isoformat(),\n          "end_time":timeslot.end_time.isoformat(),\n        }\n        timeslotList.append(timeslotDict)\n  return json.dumps(timeslotList)\n\n\nresponse._vars=response._caller(getTerms)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/Users/Nick/Desktop/cs183/web2py-1/gluon/restricted.py", line 224, in restricted\n    exec ccode in environment\n  File "/Users/Nick/Desktop/cs183/web2py-1/applications/scheduler/controllers/schedule.py", line 59, in <module>\n  File "/Users/Nick/Desktop/cs183/web2py-1/gluon/globals.py", line 393, in <lambda>\n    self._caller = lambda f: f()\n  File "/Users/Nick/Desktop/cs183/web2py-1/applications/scheduler/controllers/schedule.py", line 16, in getTerms\n    terms = db(db.network_term.network_id==network_id).select()\n  File "/Users/Nick/Desktop/cs183/web2py-1/gluon/dal/objects.py", line 2066, in select\n    return adapter.select(self.query,fields,attributes)\n  File "/Users/Nick/Desktop/cs183/web2py-1/gluon/dal/adapters/sqlite.py", line 125, in select\n    return super(SQLiteAdapter, self).select(query, fields, attributes)\n  File "/Users/Nick/Desktop/cs183/web2py-1/gluon/dal/adapters/base.py", line 1219, in select\n    sql = self._select(query, fields, attributes)\n  File "/Users/Nick/Desktop/cs183/web2py-1/gluon/dal/adapters/base.py", line 1117, in _select\n    sql_w = \' WHERE \' + self.expand(query) if query else \'\'\n  File "/Users/Nick/Desktop/cs183/web2py-1/gluon/dal/adapters/base.py", line 897, in expand\n    out = op(first, second, **optional_args)\n  File "/Users/Nick/Desktop/cs183/web2py-1/gluon/dal/adapters/base.py", line 794, in EQ\n    self.expand(second, first.type))\n  File "/Users/Nick/Desktop/cs183/web2py-1/gluon/dal/adapters/base.py", line 908, in expand\n    return str(self.represent(expression,field_type))\n  File "/Users/Nick/Desktop/cs183/web2py-1/gluon/dal/adapters/base.py", line 1364, in represent\n    return str(long(obj))\nValueError: invalid literal for long() with base 10: \'undefined\'\n'
+p11
+s.

@@ -8,9 +8,7 @@ app.config(['$interpolateProvider',
 ]);
 
 app.controller('schedulerCtrl', function($scope, $http) {
-    $( "#search input" ).autocomplete({
-      source: classes
-    });
+
     $(document).ready(function(){
       $(document).on('keyup', '#searchfield', function(event){
         if (event.which==13){
@@ -19,15 +17,54 @@ app.controller('schedulerCtrl', function($scope, $http) {
           $('.ui-autocomplete').hide();
         }
       });
+	  $('#networkselect').on('change', function(event){
+	  	$scope.getNetId($('#networkselect').val());
+	  });
+	  $('#termselect').on('change', function(event){
+	  	$scope.getTermId($('#termselect').val() , $('#networkselect').val());
+	  });
     });
-
-	/* config object */
+    $scope.terms = [];
+    $scope.klasses = [];
+    $scope.getTerms = function(network_id){
+	    $http.get('/scheduler/schedule/getTerms?id=' + network_id)
+	    	.success(function(data, status, headers, config) {
+	    		$scope.terms.splice(0);
+	        	$scope.terms = data;
+	    	});
+    };
+    $scope.getKlasses = function(term_id){
+	    $http.get('/scheduler/schedule/getKlasses?id=' + term_id)
+	    	.success(function(data, status, headers, config) {
+	    		$scope.klasses.splice(0);
+	        	$scope.klasses = data;
+	        	console.log($scope.klasses);
+			      $( "#searchbox" ).autocomplete({
+			      	source: $scope.klasses
+			      });
+	    	});
+    };
+    $scope.getNetId = function(title){
+	    $http.get('/scheduler/schedule/getNetId?str=' + title)
+	    	.success(function(data, status, headers, config) {
+	    		$scope.netId = data;
+	    		$scope.getTerms($scope.netId);
+	    	});
+    };
+    $scope.getTermId = function(term, network){
+	    $http.get('/scheduler/schedule/getTermId?str=' + term +'&id=' + $scope.netId)
+	    	.success(function(data, status, headers, config) {
+	    		console.log(data);
+	    		$scope.termId = data;
+	    		$scope.getKlasses($scope.termId);
+	    	});
+    };
 	$scope.events = [];
 	$scope.eventSources = [
 		$scope.events,
 	];
 	$scope.klasses = [];
-
+	/* config object */
 	$scope.uiConfig = {
 	  calendar:{
 		defaultView: 'agendaWeek',

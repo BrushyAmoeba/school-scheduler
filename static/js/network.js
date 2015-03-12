@@ -31,7 +31,7 @@ app.controller('networkCtrl', function($scope, $http) {
 	    $http.get('/scheduler/manager/viewNetwork?id=' + network_id)
 	    	.success(function(data, status, headers, config) {
 	    		$scope.terms.splice(0);
-	        	$scope.terms = data;
+	        $scope.terms = data;
     			$scope.loadSection('term');
     			$scope.network_id = network_id;
 	    	});

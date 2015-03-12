@@ -7,18 +7,44 @@
   <script type="text/javascript" src="/scheduler/static/bower_components/moment/moment.js"></script>
   <script type="text/javascript" src="/scheduler/static/bower_components/angular-ui.js"></script>
   <script type="text/javascript" src="/scheduler/static/js/scheduler.js"></script>
-  
-  <script>var classes = {{=XML(classList)}};</script>
+  <script>
+    var classes = {{=XML(classList)}};
+    console.log(classes);
+  </script>
 
 
   <link rel="stylesheet" href="/scheduler/static/bower_components/fullcalendar/fullcalendar.css"/>
 {{end}}
 
 {{block center}}
+<div ng-app="scheduler" ng-controller="schedulerCtrl">
+  <div>
+    Network:
+    <select id="networkselect">
+        <option></option>
+      {{for n in networks:}}
+        <option>{{=n.title}}</option>
+      {{pass}}
+    </select><br>
+    Term:
+    <select id="termselect">
+      <option></option>
+      <option ng-repeat="term in terms">{[{term.title}]}</option>
+    </select><br>
+    Class:
+    <input id="searchbox" type="text"></input>
+    <button class="btn btn-success" ng-click="">Add Event</button>
+  </div>
 
-  <div id="ourCal" ng-app="scheduler" ng-controller="schedulerCtrl" ng-cloak>    
+  <div id="ourCal" ng-cloak> 
     <h3>My Schedule</h3>
+    <a href="">Create a New Schedule</a><br>
+    <select>
+      <option></option>
+      <option>Spring Classes</option>
+    </select><br>
     <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
 
   </div>
+</div>
 {{end}}
