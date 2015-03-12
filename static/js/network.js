@@ -77,4 +77,29 @@ app.controller('networkCtrl', function($scope, $http) {
     			$scope.klass_id = klass_id;
 	    	});
     };
+    $scope.createTimeslot = function(){
+    	var meet_day = $('#meet_day');
+    	var start = $('#start');
+    	var end = $('#end');
+		$http.post('/scheduler/manager/createTimeslot', {
+			meet_day: meet_day.val(),
+			start: start.val(),
+			end: end.val(),
+			klass_id: $scope.klass_id,
+		}).success(function(data, status, headers, config) {
+    		$scope.timeslots.push(data);
+          	meet_day.val(1);
+          	start.val('');
+          	end.val('');
+  		});
+    };
+    $scope.numToDay = function(num){
+		if(num==1){return 'Monday'}
+		else if(num==2){return 'Tuesday'}
+		else if(num==3){return 'Wednesday'}
+		else if(num==4){return 'Thursday'}
+		else if(num==5){return 'Friday'}
+	};
 });
+
+

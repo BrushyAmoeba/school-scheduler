@@ -9,6 +9,8 @@
 ## - api is an example of Hypermedia API support and access control
 #########################################################################
 import json
+import time
+from datetime import datetime
 
 
 def index():
@@ -84,6 +86,7 @@ def createKlass():
     post = request.post_vars
     #Teacher Stuff first
     teacher_id = db(db.teacher.name==post.teacher).update(name = post.teacher) or db.teacher.insert(name = post.teacher)
+    print(teacher_id)
     klass_id = db.klass.insert(title = post.title, teacher_id = teacher_id)
     db.class_term.insert(klass_id = klass_id, term_id = post.term_id)
     response = {
@@ -103,7 +106,22 @@ def viewKlass():
         timeslotList.append({
             "timeslot_id": str(timeslot.id),
             "meet_day":timeslot.meet_day,
-            "start_time":1,
-            "end_time":2,
+            "start_time":timeslot.start_time.strftime('%I:%M %p'),
+            "end_time":timeslot.end_time.strftime('%I:%M %p'),
         })
     return json.dumps(timeslotList)
+
+def createTimeslot():
+    if request.env.request_method!='POST': raise HTTP(400)
+    post = request.post_vars
+    start_time = datetime.strptime(post.start, '%H:%M:%S').time()
+    end_time = datetime.strptime(post.end, '%H:%M:%S').time()
+    timeslot_id = db.timeslot.insert(meet_day = post.meet_day, start_time = start_time, end_time = end_time)
+    db.class_timeslot.insert(timeslot_id = timeslot_id, klass_id = post.klass_id)
+    response = {
+        'meet_day': post.meet_day,
+        'start_time': start_time.strftime('%I:%M %p'),
+        'end_time': end_time.strftime('%I:%M %p'),
+        'klass_id': str(post.klass_id),     
+    }
+    return json.dumps(response)

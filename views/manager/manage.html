@@ -2,7 +2,14 @@
 
 {{block head}}
 <script type="text/javascript" src="/scheduler/static/js/network.js"></script>
-
+<link rel="stylesheet" type="text/css" href="/scheduler/static/css/jquery.timeentry.css"> 
+<script type="text/javascript" src="/scheduler/static/js/jquery.plugin.js"></script> 
+<script type="text/javascript" src="/scheduler/static/js/jquery.timeentry.js"></script>
+<script>
+	$(function () {
+		$('.is-timeEntry').timeEntry({ampmPrefix: ' ', spinnerImage: ''});
+	});
+</script>
 <script>
     var networks = {{=XML(networks)}};
 </script>
@@ -41,24 +48,27 @@
 	</div>
 
 	<div id="timeslot" ng-show="checkSection('timeslot');">
+
 		<h4>
 			<a ng-click="loadSection('network')">Network</a> >> <a ng-click="loadSection('term')">Term</a>
 		  	>> <a ng-click="loadSection('class')">Classes</a>
 		</h4>
 		<h3>Timeslots for </h3>
-	    <input placeholder="start" type="text"></input><br>
-	    <input placeholder="end" type="text"></input><br>
-	      
-	    <select>
-	    	<option>Monday</option>
-	      	<option>Tuesday</option>
-	      	<option>Wednesday</option>
-	      	<option>Thursday</option>
-	      	<option>Friday</option>
+	    <input id="start" class="is-timeEntry" placeholder="start" type="text"></input><br>
+	    <input id="end"class="is-timeEntry" placeholder="end" type="text"></input><br>
+
+	    <select id="meet_day">
+	    	<option value="1">Monday</option>
+	      	<option value="2">Tuesday</option>
+	      	<option value="3">Wednesday</option>
+	      	<option value="4">Thursday</option>
+	      	<option value="5">Friday</option>
 	    </select><br>
-	    <button class="btn btn-success" ng-click="loadSection('createclass')">Add Timeslot</button><br>
+	    <button class="btn btn-success" ng-click="createTimeslot();">Add Timeslot</button><br>
 		<ul>
-			<li ng-repeat="timeslot in timeslots">{[{timeslot.meet_day}]}</li>
+			<li ng-repeat="timeslot in timeslots">{[{numToDay(timeslot.meet_day)}]}:
+				{[{timeslot.start_time}]} - {[{timeslot.end_time}]}
+			</li>
 		</ul>       
 	</div>
 
