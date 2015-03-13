@@ -14,7 +14,7 @@ app.controller('schedulerCtrl', function($scope, $http) {
       $(document).on('keyup', '#searchfield', function(event){
         if (event.which==13){
           $('#searchbtn').click();
-          $('#searchfield').val('');
+          $('#searchbox').val('');
           $('.ui-autocomplete').hide();
         }
       });
@@ -34,6 +34,17 @@ app.controller('schedulerCtrl', function($scope, $http) {
   			opt.attr('ng-value', data)
         	input.val('');
         	defalt.removeAttr('checked');
+  		});
+    };
+    $scope.addClassToSched = function(){
+    	var input = $('#searchbox');
+  		$http.post('/scheduler/schedule/addClassToSched', {
+  			title: input.val(),
+  			term_id: $scope.termId,
+  			sched_id: $scope.scheduleSelect,
+  		}).success(function(data, status, headers, config) {
+        	input.val('');
+        	$scope.loadSched();
   		});
     };
     $scope.loadSched = function (){

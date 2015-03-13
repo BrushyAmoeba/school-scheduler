@@ -33,6 +33,29 @@ def newSched():
     return
 
 @auth.requires_login()
+def addClassToSched():
+    if request.env.request_method!='POST': raise HTTP(400)
+    post = request.post_vars
+    term_id = post.term_id
+    sched_id = post.sched_id
+    if sched_id == -1:
+      schedule_user = db(db.schedule_user.user_id==auth.user_id).select()
+      for s in schedule_user:
+        sched = db(db.schedule.id==s.id).select().first()
+        print(sched_id)
+        if sched.defalt==True:
+          sched_id = sched.id
+          break
+
+    title = post.title
+    class_term = db(db.class_term.term_id==term_id).select()
+    for c in class_term:
+      klass = db(db.klass.id==c.klass_id).select().first()
+      if klass.title == title:
+        db.schedule_class.insert(schedule_id = sched_id, klass_id = klass.id)
+        return
+
+@auth.requires_login()
 def loadSched():
     if request.env.request_method!='GET': raise HTTP(400)
     sched_id = request.vars.id
