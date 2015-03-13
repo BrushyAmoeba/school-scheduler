@@ -22,13 +22,17 @@ def index():
 def newSched():
     if request.env.request_method!='POST': raise HTTP(400)
     post = request.post_vars
+    defalt = post.defalt
     if db(db.schedule_user.user_id==auth.user_id).select():
-      defalt = post.defalt
-      if db(db.schedule.defalt==True).select():
-        db(db.schedule.defalt==True).update(defalt=False)
+      if defalt==True:
+        sched_user = db(db.schedule_user.user_id==auth.user_id).select()
+        for s in sched_user:
+          curr_sched = db(db.schedule.id==s.schedule_id).select().first()
+          if curr_sched.defalt==True:
+            db(db.schedule.id==s.schedule_id).update(defalt=False)
     else:
       defalt = True
-    sched = db.schedule.insert(title = post.title, defalt = post.defalt)
+    sched = db.schedule.insert(title = post.title, defalt = defalt)
     db.schedule_user.insert(schedule_id = sched.id, user_id = auth.user_id)
     return
 
@@ -46,7 +50,6 @@ def addClassToSched():
         if sched.defalt==True:
           sched_id = sched.id
           break
-
     title = post.title
     class_term = db(db.class_term.term_id==term_id).select()
     for c in class_term:

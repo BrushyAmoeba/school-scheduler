@@ -25,9 +25,13 @@ app.controller('schedulerCtrl', function($scope, $http) {
     $scope.newSched = function(){
     	var input = $('#scheduletitle');
     	var defalt = $('#defcheck');
+    	var def = false
+    	if (defalt.is(':checked')){
+    		def = true
+    	}
   		$http.post('/scheduler/schedule/newSched', {
   			title: input.val(),
-  			defalt: defalt.val()
+  			defalt: def,
   		}).success(function(data, status, headers, config) {
   			$scope.schedules.push(data);
   			opt = $('<option/>').html(input.val()).appendTo('#schedselect');

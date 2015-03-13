@@ -38,7 +38,7 @@
   <div id="ourCal" ng-cloak> 
     <h2>My Schedules</h2>
     <input id="scheduletitle" placeholder="schedule title" style="width:200px;" type="text"></input>
-    <input id="defcheck" type="checkbox" value="default">Make default?<br>
+    <input id="defcheck" type="checkbox">Make default?<br>
     <button class="btn btn-primary" ng-click="newSched();">New Schedule</button><br><br><br>
     Select Schedule:
     <select id="schedselect" ng-change="loadSched();" ng-model="scheduleSelect" ng-init="scheduleSelect=-1">
