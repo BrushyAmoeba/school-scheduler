@@ -9,7 +9,6 @@
   <script type="text/javascript" src="/scheduler/static/js/scheduler.js"></script>
   <script>
     var classes = {{=XML(classList)}};
-    console.log(classes);
   </script>
 
 
@@ -20,30 +19,35 @@
 <div ng-app="scheduler" ng-controller="schedulerCtrl">
   <div>
     Network:
-    <select id="networkselect">
+    <select id="networkselect" ng-model="netId" ng-change="getTerms();">
         <option></option>
       {{for n in networks:}}
-        <option>{{=n.title}}</option>
+        <option ng-value="{{=n.id}}">{{=n.title}}</option>
       {{pass}}
     </select><br>
     Term:
-    <select id="termselect">
+    <select id="termselect" ng-change="getKlasses();" ng-model="termId">
       <option></option>
-      <option ng-repeat="term in terms">{[{term.title}]}</option>
+      <option ng-repeat="term in terms" ng-value="term.term_id">{[{term.title}]}</option>
     </select><br>
     Class:
     <input id="searchbox" type="text"></input>
-    <button class="btn btn-success" ng-click="">Add Event</button>
+    <button id="searchbtn" class="btn btn-success" ng-click="">Add Event</button>
   </div>
 
   <div id="ourCal" ng-cloak> 
-    <h3>My Schedule</h3>
-    <a href="">Create a New Schedule</a><br>
-    <select>
-      <option></option>
-      <option>Spring Classes</option>
+    <h2>My Schedules</h2>
+    <input id="scheduletitle" placeholder="schedule title" style="width:200px;" type="text"></input>
+    <input id="defcheck" type="checkbox" value="default">Make default?<br>
+    <button class="btn btn-primary" ng-click="newSched();">New Schedule</button><br><br><br>
+    Select Schedule:
+    <select id="schedselect" ng-change="loadSched();" ng-model="scheduleSelect" ng-init="scheduleSelect=-1">
+      <option value="-1">Default</option>
+      {{for s in schedList:}}
+      <option ng-value="{{=s['id']}}">{{=s['title']}}</option>
+      {{pass}}
     </select><br>
-    <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+    <div id="ourcal" style="margin-top:-20px;" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
 
   </div>
 </div>

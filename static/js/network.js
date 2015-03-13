@@ -20,12 +20,12 @@ app.controller('networkCtrl', function($scope, $http) {
     };
     $scope.createNetwork = function(){
     	var input = $('#network').find('input');
-		$http.post('/scheduler/manager/createNetwork', {
-			title: input.val()
-		}).success(function(data, status, headers, config) {
-			$scope.networks.push(data);
-      		input.val('');
-		});
+  		$http.post('/scheduler/manager/createNetwork', {
+  			title: input.val()
+  		}).success(function(data, status, headers, config) {
+  		  $scope.networks.push(data);
+        input.val('');
+  		});
     };
     $scope.viewNetwork = function(network_id){
 	    $http.get('/scheduler/manager/viewNetwork?id=' + network_id)

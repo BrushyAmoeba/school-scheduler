@@ -47,3 +47,18 @@ db.define_table('class_term',
     Field('klass_id', 'reference klass'),
     Field('term_id', 'reference term')
     )
+
+db.define_table('schedule',
+    Field('title'),
+    Field('defalt', 'boolean')
+    )
+
+db.define_table('schedule_user',
+    Field('schedule_id', 'reference schedule'),
+    Field('user_id', 'reference auth_user')
+    )
+
+db.define_table('schedule_class',
+    Field('schedule_id', 'reference schedule'),
+    Field('klass_id', 'reference klass')
+    )

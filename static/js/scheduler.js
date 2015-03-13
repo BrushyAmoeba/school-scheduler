@@ -10,6 +10,7 @@ app.config(['$interpolateProvider',
 app.controller('schedulerCtrl', function($scope, $http) {
 
     $(document).ready(function(){
+      $scope.loadSched();	
       $(document).on('keyup', '#searchfield', function(event){
         if (event.which==13){
           $('#searchbtn').click();
@@ -17,46 +18,63 @@ app.controller('schedulerCtrl', function($scope, $http) {
           $('.ui-autocomplete').hide();
         }
       });
-	  $('#networkselect').on('change', function(event){
-	  	$scope.getNetId($('#networkselect').val());
-	  });
-	  $('#termselect').on('change', function(event){
-	  	$scope.getTermId($('#termselect').val() , $('#networkselect').val());
-	  });
     });
     $scope.terms = [];
     $scope.klasses = [];
-    $scope.getTerms = function(network_id){
-	    $http.get('/scheduler/schedule/getTerms?id=' + network_id)
+    $scope.schedules = [];
+    $scope.newSched = function(){
+    	var input = $('#scheduletitle');
+    	var defalt = $('#defcheck');
+  		$http.post('/scheduler/schedule/newSched', {
+  			title: input.val(),
+  			defalt: defalt.val()
+  		}).success(function(data, status, headers, config) {
+  			$scope.schedules.push(data);
+  			opt = $('<option/>').html(input.val()).appendTo('#schedselect');
+  			opt.attr('ng-value', data)
+        	input.val('');
+        	defalt.removeAttr('checked');
+  		});
+    };
+    $scope.loadSched = function (){
+    	var id = $scope.scheduleSelect;
+    	$http.get('/scheduler/schedule/loadSched?id=' + id)
+    		.success(function(data, status, headers, config) {
+    			angular.element('#ourcal').fullCalendar( 'removeEventSource', $scope.events);
+    			$scope.events=[];
+	    		$scope.events.splice(0);
+	    		angular.forEach(data, function(entry, key){
+	    			startOfWeek = moment().startOf('week');
+	    			day = startOfWeek.add(entry.meet_day, 'days');
+	    			start = moment(day.format('YYYY-MM-DD:Z') + ' ' + entry.start_time, 'YYYY-MM-DD:Z H:mm:ss');
+				  	end = moment(day.format('YYYY-MM-DD:Z') + ' ' + entry.end_time, 'YYYY-MM-DD:Z H:mm:ss');
+	    			$scope.events.push({
+    					title: entry.title,
+			  			description: entry.description,
+			  			start: start.format(),
+			  			end: end.format(),
+			  			allDay: false,
+	    			});
+	    		});
+	    		angular.element('#ourcal').fullCalendar( 'addEventSource', $scope.events);
+
+	    	});
+    }
+    $scope.getTerms = function(){
+	    $http.get('/scheduler/schedule/getTerms?id=' + $scope.netId)
 	    	.success(function(data, status, headers, config) {
 	    		$scope.terms.splice(0);
 	        	$scope.terms = data;
 	    	});
     };
-    $scope.getKlasses = function(term_id){
-	    $http.get('/scheduler/schedule/getKlasses?id=' + term_id)
+    $scope.getKlasses = function(){
+	    $http.get('/scheduler/schedule/getKlasses?id=' + $scope.termId)
 	    	.success(function(data, status, headers, config) {
 	    		$scope.klasses.splice(0);
 	        	$scope.klasses = data;
-	        	console.log($scope.klasses);
-			      $( "#searchbox" ).autocomplete({
-			      	source: $scope.klasses
-			      });
-	    	});
-    };
-    $scope.getNetId = function(title){
-	    $http.get('/scheduler/schedule/getNetId?str=' + title)
-	    	.success(function(data, status, headers, config) {
-	    		$scope.netId = data;
-	    		$scope.getTerms($scope.netId);
-	    	});
-    };
-    $scope.getTermId = function(term, network){
-	    $http.get('/scheduler/schedule/getTermId?str=' + term +'&id=' + $scope.netId)
-	    	.success(function(data, status, headers, config) {
-	    		console.log(data);
-	    		$scope.termId = data;
-	    		$scope.getKlasses($scope.termId);
+		        $( "#searchbox" ).autocomplete({
+			    	source: $scope.klasses
+		        });
 	    	});
     };
 	$scope.events = [];
@@ -78,28 +96,7 @@ app.controller('schedulerCtrl', function($scope, $http) {
         contentHeight: 1000,
 	    editable: false,
 	    allDaySlot: false,
-		viewRender: function(view, element) {
-			$http.get('getTimeslots')
-				.success(function(data, status, headers, config) {
-				  	view.calendar.removeEventSource($scope.events);
-				  	$scope.events.splice(0);
-				  	angular.forEach(data,function(evt){
-				  		startOfWeek = moment().startOf('week');
-				  		title = evt.title,
-				  		day = startOfWeek.add(evt.meet_day, 'days');
-				  		start = moment(day.format('YYYY-MM-DD:Z') + ' ' + evt.start_time, 'YYYY-MM-DD:Z H:mm:ss');
-				  		end = moment(day.format('YYYY-MM-DD:Z') + ' ' + evt.end_time, 'YYYY-MM-DD:Z H:mm:ss');
-				  		$scope.events.push({
-				  			title: title,
-				  			description: evt.teacher,
-				  			start: start.format(),
-				  			end: end.format(),
-				  			allDay: false,
-				  		});
-				  	});
-				  	view.calendar.addEventSource($scope.events);
-				});  
-	  	},
+		
         eventRender: function(event, element) { 
             element.find('.fc-event-title').append('<div class="eventDescription">' + event.description + '</div>'); 
         },
