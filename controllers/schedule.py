@@ -5,14 +5,69 @@ def index():
     Index: shows user schedules
     """
     classList = []
+    schedList = []
     for c in db(db.klass).select():
         classList.append(c.title)
     networks = db(db.network).select()
+    sched_ids = db(db.schedule_user.user_id==auth.user_id).select()
+    for s in sched_ids:
+        sched = db(db.schedule.id==s.schedule_id).select().first()
+        schedList.append({
+            'title': sched.title,
+            'id': sched.id,
+        })
     return locals()
+
+@auth.requires_login()
+def newSched():
+    if request.env.request_method!='POST': raise HTTP(400)
+    post = request.post_vars
+    if db(db.schedule_user.user_id==auth.user_id).select():
+      defalt = post.defalt
+      if db(db.schedule.defalt==True).select():
+        db(db.schedule.defalt==True).update(defalt=False)
+    else:
+      defalt = True
+    sched = db.schedule.insert(title = post.title, defalt = post.defalt)
+    db.schedule_user.insert(schedule_id = sched.id, user_id = auth.user_id)
+    return
+
+@auth.requires_login()
+def loadSched():
+    if request.env.request_method!='GET': raise HTTP(400)
+    sched_id = request.vars.id
+    if int(request.vars.id)==-1:
+      sched_user = db(db.schedule_user.user_id==auth.user_id).select()
+      for s in sched_user:
+        sched = db(db.schedule.id==s.id).select().first()
+        if sched.defalt==True:
+          sched_id = sched.id
+    klasses = db(db.schedule_class.schedule_id==sched_id).select()
+    klassesList = []
+    for k in klasses:
+        klass = db(db.klass.id==k.klass_id).select().first()
+        timeslots = db(db.class_timeslot.klass_id==klass.id).select()
+        for t in timeslots:
+          timeslot = db(db.timeslot.id==t.id).select().first()
+          #teacher_id = db(db.teacher_class.klass_id == klass.id).select().first().teacher_id
+          teacher_id = 1
+          teacher = db(db.teacher.id == teacher_id).select().first().name
+          klassesList.append({
+            "title":klass.title,
+            "description":teacher,
+            "meet_day":timeslot.meet_day,
+            "start_time":timeslot.start_time.isoformat(),
+            "end_time":timeslot.end_time.isoformat(),
+          })
+    print(klassesList)
+    return json.dumps(klassesList)
+
+
 
 def getTerms():
     if request.env.request_method!='GET': raise HTTP(400)
     network_id =request.vars.id
+    print(network_id)
     terms = db(db.network_term.network_id==network_id).select()
     termList = []
     for t in terms:
