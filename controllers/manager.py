@@ -112,6 +112,25 @@ def viewTerm():
     return json.dumps(klassList)
 
 @auth.requires_login()
+def removeTerm():
+    if request.env.request_method!='DELETE': raise HTTP(400)
+    post = request.vars
+    term_select = db(db.term.id==post.id)
+    term = term_select.select().first()
+    class_term = db(db.class_term.term_id==term.id).select()
+    for k in class_term:
+        klass_select = db(db.klass.id==k.klass_id)
+        klass = klass_select.select().first()
+        class_timeslot = db(db.class_timeslot.klass_id==klass.id).select()
+        for t in class_timeslot:
+            timeslot_select = db(db.timeslot.id==t.timeslot_id)
+            timeslot = timeslot_select.select().first()
+            timeslot_select.delete()
+        klass_select.delete()
+    term_select.delete()
+    return
+
+@auth.requires_login()
 def createKlass():
     if request.env.request_method!='POST': raise HTTP(400)
     post = request.post_vars
@@ -145,6 +164,20 @@ def viewKlass():
     return json.dumps(timeslotList)
 
 @auth.requires_login()
+def removeKlass():
+    if request.env.request_method!='DELETE': raise HTTP(400)
+    post = request.vars
+    klass_select = db(db.klass.id==post.id)
+    klass = klass_select.select().first()
+    class_timeslot = db(db.class_timeslot.klass_id==klass.id).select()
+    for t in class_timeslot:
+        timeslot_select = db(db.timeslot.id==t.timeslot_id)
+        timeslot = timeslot_select.select().first()
+        timeslot_select.delete()
+    klass_select.delete()
+    return
+
+@auth.requires_login()
 def createTimeslot():
     if request.env.request_method!='POST': raise HTTP(400)
     post = request.post_vars
@@ -160,3 +193,12 @@ def createTimeslot():
         'klass_id': str(post.klass_id),     
     }
     return json.dumps(response)
+
+@auth.requires_login()
+def removeTimeslot():
+    if request.env.request_method!='DELETE': raise HTTP(400)
+    post = request.vars
+    timeslot_select = db(db.timeslot.id==post.id)
+    timeslot = timeslot_select.select().first()
+    timeslot_select.delete()
+    return

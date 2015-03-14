@@ -40,7 +40,7 @@
 	      <button class="btn btn-success" ng-click="createTerm();">Create Term</button>
 	      <ul>
 	      	<li ng-repeat="term in terms" ng-click="viewTerm(term.term_id);">{[{term.title}]}
-				<a ng-click="deleteTerm(term.term_id);">
+				<a ng-click="removeTerm($event, term.term_id);">
 					<i class="fa fa-times"></i>
 				</a>
 			</li>
@@ -52,7 +52,7 @@
 		<h3> Classes in Spring 2015</h3>
 		<ul>
 			<li ng-repeat="klass in klasses" ng-click="viewKlass(klass.klass_id);">{[{klass.title}]}
-				<a ng-click="deleteKlass(klass.klass_id);">
+				<a ng-click="removeKlass($event, klass.klass_id);">
 					<i class="fa fa-times"></i>
 				</a>
 			</li>
@@ -81,7 +81,7 @@
 		<ul>
 			<li ng-repeat="timeslot in timeslots">{[{numToDay(timeslot.meet_day)}]}:
 				{[{timeslot.start_time}]} - {[{timeslot.end_time}]} 
-				<a ng-click="deleteTimeslot(timeslot.timeslot_id);">
+				<a ng-click="removeTimeslot($event, timeslot.timeslot_id);">
 					<i class="fa fa-times"	></i>
 				</a>
 			</li>
