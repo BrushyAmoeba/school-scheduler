@@ -61,6 +61,30 @@ def viewNetwork():
     return json.dumps(termList)
 
 @auth.requires_login()
+def removeNetwork():
+    if request.env.request_method!='DELETE': raise HTTP(400)
+    post = request.vars
+    network_select = db(db.network.id==post.id)
+    network = network_select.select().first()
+    network_term = db(db.network_term.network_id==network.id).select()
+    for t in network_term:
+        term_select = db(db.term.id==t.term_id)
+        term = term_select.select().first()
+        class_term = db(db.class_term.term_id==term.id).select()
+        for k in class_term:
+            klass_select = db(db.klass.id==k.klass_id)
+            klass = klass_select.select().first()
+            class_timeslot = db(db.class_timeslot.klass_id==klass.id).select()
+            for t in class_timeslot:
+                timeslot_select = db(db.timeslot.id==t.timeslot_id)
+                timeslot = timeslot_select.select().first()
+                timeslot_select.delete()
+            klass_select.delete()
+        term_select.delete()
+    network_select.delete()
+    return
+
+@auth.requires_login()
 def createTerm():
     if request.env.request_method!='POST': raise HTTP(400)
     post = request.post_vars

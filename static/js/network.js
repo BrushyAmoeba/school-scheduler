@@ -15,35 +15,44 @@ app.controller('networkCtrl', function($scope, $http) {
 	$scope.loadSection = function(section){
     	$scope.section = section;
     };
-    $scope.checkSection = function(section){
-    	return $scope.section==section;
-    };
-    $scope.createNetwork = function(){
-    	var input = $('#network').find('input');
-  		$http.post('/scheduler/manager/createNetwork', {
-  			title: input.val(),
-        user_id: user_id,
-  		}).success(function(data, status, headers, config) {
-  		  if (data != 'error'){
-          $scope.networks.push(data);
-          input.val('');          
-        }
-        else{
-          alert('Network title already in use.');
-        }
-  		});
-    };
-    $scope.viewNetwork = function(network_id){
-	    $http.get('/scheduler/manager/viewNetwork?id=' + network_id)
-	    	.success(function(data, status, headers, config) {
-	    		$scope.terms.splice(0);
-	        $scope.terms = data;
-    			$scope.loadSection('term');
-    			$scope.network_id = network_id;
-	    	});
-    };
+  $scope.checkSection = function(section){
+  	return $scope.section==section;
+  };
+  $scope.createNetwork = function(){
+  	var input = $('#network').find('input');
+		$http.post('/scheduler/manager/createNetwork', {
+			title: input.val(),
+      user_id: user_id,
+		}).success(function(data, status, headers, config) {
+		  if (data != 'error'){
+        $scope.networks.push(data);
+        input.val('');          
+      }
+      else{
+        alert('Network title already in use.');
+      }
+		});
+  };
+  $scope.viewNetwork = function(network_id){
+    $http.get('/scheduler/manager/viewNetwork?id=' + network_id)
+    	.success(function(data, status, headers, config) {
+    		$scope.terms.splice(0);
+        $scope.terms = data;
+  			$scope.loadSection('term');
+  			$scope.network_id = network_id;
+    	});
+  };
+  $scope.removeNetwork = function(event, network_id){
+    event.stopPropagation();
+    $http.delete('/scheduler/manager/removeNetwork?id=' + network_id)
+      .success(function(data, status, headers, config) {
+        console.log('great success');
+        network = _.findWhere($scope.networks, {network_id: network_id});
+        $scope.networks.splice($scope.networks.indexOf(network),1);
+      });
+  }
 	$scope.createTerm = function(){
-    	var input = $('#term').find('input');
+    var input = $('#term').find('input');
 		$http.post('/scheduler/manager/createTerm', {
 			title: input.val(),
 			network_id: $scope.network_id,
