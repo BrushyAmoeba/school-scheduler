@@ -7355,3 +7355,269 @@ success!
 success!
 success!
 success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+DROP TABLE teacher;
+success!
+timestamp: 2015-03-13T17:07:41.730444
+CREATE TABLE teacher(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512)
+);
+success!
+success!
+success!
+DROP TABLE term;
+success!
+success!
+success!
+timestamp: 2015-03-13T17:07:59.225032
+CREATE TABLE term(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title CHAR(512)
+);
+success!
+DROP TABLE term;
+success!
+success!
+success!
+timestamp: 2015-03-13T17:08:17.758334
+CREATE TABLE term(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title CHAR(512)
+);
+success!
+DROP TABLE term;
+success!
+success!
+success!
+timestamp: 2015-03-13T17:08:19.902050
+CREATE TABLE term(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title CHAR(512)
+);
+success!
+DROP TABLE klass;
+success!
+DROP TABLE teacher_class;
+success!
+DROP TABLE timeslot;
+timestamp: 2015-03-13T17:08:28.060109
+CREATE TABLE klass(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title CHAR(512),
+    teacher_id INTEGER REFERENCES teacher (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2015-03-13T17:08:28.064295
+CREATE TABLE teacher_class(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    teacher_id INTEGER REFERENCES teacher (id) ON DELETE CASCADE,
+    klass_id INTEGER REFERENCES klass (id) ON DELETE CASCADE
+);
+success!
+success!
+DROP TABLE teacher_class;
+success!
+DROP TABLE timeslot;
+success!
+DROP TABLE class_timeslot;
+success!
+DROP TABLE class_student;
+success!
+DROP TABLE network;
+success!
+DROP TABLE network_term;
+success!
+DROP TABLE class_term;
+success!
+DROP TABLE schedule;
+success!
+DROP TABLE schedule_user;
+success!
+DROP TABLE schedule_class;
+success!
+timestamp: 2015-03-13T17:08:28.746202
+CREATE TABLE teacher_class(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    teacher_id INTEGER REFERENCES teacher (id) ON DELETE CASCADE,
+    klass_id INTEGER REFERENCES klass (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2015-03-13T17:08:28.750468
+CREATE TABLE timeslot(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    meet_day INTEGER,
+    start_time TIME,
+    end_time TIME
+);
+success!
+timestamp: 2015-03-13T17:08:28.754303
+CREATE TABLE class_timeslot(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timeslot_id INTEGER REFERENCES timeslot (id) ON DELETE CASCADE,
+    klass_id INTEGER REFERENCES klass (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2015-03-13T17:08:28.757887
+CREATE TABLE class_student(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    klass_id INTEGER REFERENCES klass (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2015-03-13T17:08:28.761581
+CREATE TABLE network(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title CHAR(512)
+);
+success!
+timestamp: 2015-03-13T17:08:28.765179
+CREATE TABLE network_term(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    network_id INTEGER REFERENCES network (id) ON DELETE CASCADE,
+    term_id INTEGER REFERENCES term (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2015-03-13T17:08:28.768989
+CREATE TABLE class_term(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    klass_id INTEGER REFERENCES klass (id) ON DELETE CASCADE,
+    term_id INTEGER REFERENCES term (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2015-03-13T17:08:28.772115
+CREATE TABLE schedule(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title CHAR(512),
+    defalt CHAR(1)
+);
+success!
+timestamp: 2015-03-13T17:08:28.775687
+CREATE TABLE schedule_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    schedule_id INTEGER REFERENCES schedule (id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2015-03-13T17:08:28.778804
+CREATE TABLE schedule_class(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    schedule_id INTEGER REFERENCES schedule (id) ON DELETE CASCADE,
+    klass_id INTEGER REFERENCES klass (id) ON DELETE CASCADE
+);
+success!
+DROP TABLE teacher_class;
+success!
+DROP TABLE timeslot;
+success!
+DROP TABLE class_timeslot;
+success!
+DROP TABLE class_student;
+success!
+DROP TABLE network;
+success!
+DROP TABLE network_term;
+success!
+DROP TABLE class_term;
+success!
+DROP TABLE schedule;
+success!
+DROP TABLE schedule_user;
+success!
+DROP TABLE schedule_class;
+success!
+timestamp: 2015-03-13T17:08:55.588255
+CREATE TABLE teacher_class(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    teacher_id INTEGER REFERENCES teacher (id) ON DELETE CASCADE,
+    klass_id INTEGER REFERENCES klass (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2015-03-13T17:08:55.591419
+CREATE TABLE timeslot(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    meet_day INTEGER,
+    start_time TIME,
+    end_time TIME
+);
+success!
+timestamp: 2015-03-13T17:08:55.593834
+CREATE TABLE class_timeslot(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timeslot_id INTEGER REFERENCES timeslot (id) ON DELETE CASCADE,
+    klass_id INTEGER REFERENCES klass (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2015-03-13T17:08:55.596688
+CREATE TABLE class_student(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    klass_id INTEGER REFERENCES klass (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2015-03-13T17:08:55.601578
+CREATE TABLE network(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title CHAR(512)
+);
+success!
+timestamp: 2015-03-13T17:08:55.605022
+CREATE TABLE network_term(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    network_id INTEGER REFERENCES network (id) ON DELETE CASCADE,
+    term_id INTEGER REFERENCES term (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2015-03-13T17:08:55.608148
+CREATE TABLE class_term(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    klass_id INTEGER REFERENCES klass (id) ON DELETE CASCADE,
+    term_id INTEGER REFERENCES term (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2015-03-13T17:08:55.611494
+CREATE TABLE schedule(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title CHAR(512),
+    defalt CHAR(1)
+);
+success!
+timestamp: 2015-03-13T17:08:55.615641
+CREATE TABLE schedule_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    schedule_id INTEGER REFERENCES schedule (id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2015-03-13T17:08:55.619099
+CREATE TABLE schedule_class(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    schedule_id INTEGER REFERENCES schedule (id) ON DELETE CASCADE,
+    klass_id INTEGER REFERENCES klass (id) ON DELETE CASCADE
+);
+success!
