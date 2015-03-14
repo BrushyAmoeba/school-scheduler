@@ -12,6 +12,7 @@
 </script>
 <script>
     var networks = {{=XML(networks)}};
+    var user_id = {{=auth.user.id}};
 </script>
 {{end}}
 
@@ -82,7 +83,6 @@
 		<input id="klasstitle" placeholder="Title:" type="text"></input><br>
 		<input id="teachername" placeholder="Teacher:" type="text"></input><br>
 		<button class="btn btn-success" ng-click="createKlass();">Create Class</button><br>
-		<button class="btn btn-primary" ng-click="loadSection('timeslot')">Add Timeslot</button><br> 
 	</div>
 </div>
 {{end}}

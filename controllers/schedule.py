@@ -34,7 +34,7 @@ def newSched():
       defalt = True
     sched = db.schedule.insert(title = post.title, defalt = defalt)
     db.schedule_user.insert(schedule_id = sched.id, user_id = auth.user_id)
-    return
+    return sched.id
 
 @auth.requires_login()
 def addClassToSched():

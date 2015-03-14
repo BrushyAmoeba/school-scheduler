@@ -7621,3 +7621,10 @@ CREATE TABLE schedule_class(
     klass_id INTEGER REFERENCES klass (id) ON DELETE CASCADE
 );
 success!
+timestamp: 2015-03-13T17:21:50.222962
+ALTER TABLE network ADD user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE;
+success!
+success!
+success!
+success!
+success!

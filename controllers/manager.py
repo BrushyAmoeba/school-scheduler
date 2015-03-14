@@ -17,33 +17,36 @@ def index():
     """
     Index: shows user schedules
     """
-    classList = []
-    for c in db(db.klass).select():
-        classList.append(c.title) 
-
+    redirect(URL('manager', 'manage'))
     return locals()
 
+@auth.requires_login()
 def manage():
     """
     Network: create network
     """
     networks = []
-    for network in db(db.network).select():
+    for network in db(db.network.user_id==auth.user.id).select():
         networks.append({
             "network_id": str(network.id),
             "title": network.title,
             })
     return locals()
 
+@auth.requires_login()
 def createNetwork():
     if request.env.request_method!='POST': raise HTTP(400)
     post = request.post_vars
-    db.network.insert(title = post.title)
+    if db(db.network.title==post.title).select():
+        return 'error'
+    network = db.network.insert(title = post.title, user_id = post.user_id)
     response = {
-        'title': post.title, 
+        'title': post.title,
+        'network_id': network.id, 
     }
     return json.dumps(response)
 
+@auth.requires_login()
 def viewNetwork():
     if request.env.request_method!='GET': raise HTTP(400)
     network_id =request.vars.id
@@ -57,6 +60,7 @@ def viewNetwork():
         })
     return json.dumps(termList)
 
+@auth.requires_login()
 def createTerm():
     if request.env.request_method!='POST': raise HTTP(400)
     post = request.post_vars
@@ -65,9 +69,11 @@ def createTerm():
     response = {
         'network_id': str(post.network_id),
         'title': post.title,
+        'term_id': term.id,
     }
     return json.dumps(response)
 
+@auth.requires_login()
 def viewTerm():
     if request.env.request_method!='GET': raise HTTP(400)
     term_id =request.vars.id
@@ -81,6 +87,7 @@ def viewTerm():
         })
     return json.dumps(klassList)
 
+@auth.requires_login()
 def createKlass():
     if request.env.request_method!='POST': raise HTTP(400)
     post = request.post_vars
@@ -93,9 +100,11 @@ def createKlass():
         'term_id': str(post.term_id),
         'title': post.title,
         'teacher': post.teacher,
+        'klass_id': klass_id,
     }
     return json.dumps(response)
 
+@auth.requires_login()
 def viewKlass():
     if request.env.request_method!='GET': raise HTTP(400)
     klass_id =request.vars.id
@@ -111,6 +120,7 @@ def viewKlass():
         })
     return json.dumps(timeslotList)
 
+@auth.requires_login()
 def createTimeslot():
     if request.env.request_method!='POST': raise HTTP(400)
     post = request.post_vars

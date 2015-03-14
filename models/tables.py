@@ -32,6 +32,7 @@ db.define_table('class_student',
 
 db.define_table('network',
     Field('title'),
+    Field('user_id', 'reference auth_user')
     )
 
 db.define_table('term',

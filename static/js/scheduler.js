@@ -33,11 +33,10 @@ app.controller('schedulerCtrl', function($scope, $http) {
   			title: input.val(),
   			defalt: def,
   		}).success(function(data, status, headers, config) {
-  			$scope.schedules.push(data);
   			opt = $('<option/>').html(input.val()).appendTo('#schedselect');
-  			opt.attr('ng-value', data)
-        	input.val('');
-        	defalt.removeAttr('checked');
+  			opt.attr('value', data);
+        input.val('');
+        defalt.removeAttr('checked');
   		});
     };
     $scope.addClassToSched = function(){
