@@ -25,7 +25,11 @@
 	      <input type="text"></input>
 	      <button class="btn btn-success" ng-click="createNetwork();">Create Network</button>
 	      <ul>
-	      	<li ng-repeat="network in networks" ng-click="viewNetwork(network.network_id);">{[{network.title}]}</li>
+	      	<li ng-repeat="network in networks" ng-click="viewNetwork(network.network_id);">{[{network.title}]}
+				<a ng-click="deleteNetwork(network.network_id);">
+					<i class="fa fa-times"></i>
+				</a>
+			</li>
 	  	  </ul>
 	</div>
 
@@ -35,7 +39,11 @@
 	      <input type="text"></input>
 	      <button class="btn btn-success" ng-click="createTerm();">Create Term</button>
 	      <ul>
-	      	<li ng-repeat="term in terms" ng-click="viewTerm(term.term_id);">{[{term.title}]}</li>
+	      	<li ng-repeat="term in terms" ng-click="viewTerm(term.term_id);">{[{term.title}]}
+				<a ng-click="deleteTerm(term.term_id);">
+					<i class="fa fa-times"></i>
+				</a>
+			</li>
 	  	  </ul>
 	</div>
 
@@ -43,7 +51,11 @@
 		<h4><a ng-click="loadSection('network')">Network</a> >> <a ng-click="loadSection('term')">Term</a></h4>
 		<h3> Classes in Spring 2015</h3>
 		<ul>
-			<li ng-repeat="klass in klasses" ng-click="viewKlass(klass.klass_id);">{[{klass.title}]}</li>
+			<li ng-repeat="klass in klasses" ng-click="viewKlass(klass.klass_id);">{[{klass.title}]}
+				<a ng-click="deleteKlass(klass.klass_id);">
+					<i class="fa fa-times"></i>
+				</a>
+			</li>
 		</ul>
 	  	<button class="btn btn-primary" ng-click="loadSection('createclass');">Add a New Class</button>
 	</div>
@@ -69,7 +81,9 @@
 		<ul>
 			<li ng-repeat="timeslot in timeslots">{[{numToDay(timeslot.meet_day)}]}:
 				{[{timeslot.start_time}]} - {[{timeslot.end_time}]} 
-				<a ng-click="deleteTimeslot(timeslot.timeslot_id);">delete</a>
+				<a ng-click="deleteTimeslot(timeslot.timeslot_id);">
+					<i class="fa fa-times"></i>
+				</a>
 			</li>
 		</ul>       
 	</div>
