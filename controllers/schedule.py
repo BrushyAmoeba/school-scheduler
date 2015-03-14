@@ -1,5 +1,6 @@
 import json
 
+@auth.requires_login()
 def index():
     """
     Index: shows user schedules
@@ -88,8 +89,7 @@ def loadSched():
     print(klassesList)
     return json.dumps(klassesList)
 
-
-
+@auth.requires_login()
 def getTerms():
     if request.env.request_method!='GET': raise HTTP(400)
     network_id =request.vars.id
@@ -104,6 +104,7 @@ def getTerms():
         })
     return json.dumps(termList)
 
+@auth.requires_login()
 def getKlasses():
     if request.env.request_method!='GET': raise HTTP(400)
     term_id =request.vars.id
@@ -118,22 +119,6 @@ def getKlasses():
             "title":klass.title,
         })
     return json.dumps(klassTitleList)
-
-def getNetId():
-  if request.env.request_method!='GET': raise HTTP(400)
-  network_title = request.vars.str
-  network_id = db(db.network.title==network_title).select().first().id
-  return network_id
-
-def getTermId():
-  if request.env.request_method!='GET': raise HTTP(400)
-  term_title = request.vars.str
-  network_id = request.vars.id
-  networks = db(db.network_term.network_id==network_id).select()
-  for n in networks:
-    term = db(db.term.id==n.term_id).select().first()
-    if term.title == term_title:
-      return term.id
 
 def getTimeslots():
   if request.env.request_method!='GET': raise HTTP(400)
