@@ -19,25 +19,30 @@
 
 {{block center}}
 <div ng-app="scheduler" ng-controller="schedulerCtrl">
-  <div>
-    Network:
-    <select id="networkselect" ng-model="netId" ng-change="getTerms();">
-        <option></option>
-      {{for n in networks:}}
-        <option ng-value="{{=n.id}}">{{=n.title}}</option>
-      {{pass}}
-    </select><br>
+  <div id="createNetwork">
+    <h2>Create a Network</h2>
+    <div id="networkrow1">
+      Network:
+      <select id="networkselect" ng-model="netId" ng-change="getTerms();">
+          <option></option>
+        {{for n in networks:}}
+          <option ng-value="{{=n.id}}">{{=n.title}}</option>
+        {{pass}}
+      </select><br>
+    </div>
     Term:
     <select id="termselect" ng-change="getKlasses();" ng-model="termId">
       <option></option>
       <option ng-repeat="term in terms" ng-value="term.term_id">{[{term.title}]}</option>
     </select><br>
-    Class:
-    <input id="searchbox" type="text"></input>
-    <button id="searchbtn" class="btn btn-success" ng-click="addClassToSched();">Add Event</button>
+    <div id="networkrow3">
+      Class:
+      <input id="searchbox" type="text"></input>
+      <button id="searchbtn" class="btn btn-success" ng-click="addClassToSched();">Add Event</button>
+    </div>
   </div>
 
-  <div>
+  <div id="createSched">
     <input id="scheduletitle" placeholder="schedule title" style="width:200px;" type="text"></input>
     <input id="defcheck" type="checkbox">Make default?<br>
     <button class="btn btn-primary" ng-click="newSched();">New Schedule</button><br><br><br>

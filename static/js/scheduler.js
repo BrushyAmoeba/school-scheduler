@@ -10,7 +10,8 @@ app.config(['$interpolateProvider',
 app.controller('schedulerCtrl', function($scope, $http) {
 
     $(document).ready(function(){
-      $scope.loadSched();	
+      $scope.loadSched();
+      //overlay($('#createNetwork').html());	
       $(document).on('keyup', '#searchfield', function(event){
         if (event.which==13){
           $('#searchbtn').click();
@@ -22,7 +23,6 @@ app.controller('schedulerCtrl', function($scope, $http) {
     $scope.terms = [];
     $scope.klasses = [];
     $scope.schedules = schedules;
-    console.log(schedules);
     $scope.newSched = function(){
     	var input = $('#scheduletitle');
     	var defalt = $('#defcheck');
@@ -81,7 +81,7 @@ app.controller('schedulerCtrl', function($scope, $http) {
 	    $http.get('/scheduler/schedule/getTerms?id=' + $scope.netId)
 	    	.success(function(data, status, headers, config) {
 	    		$scope.terms.splice(0);
-	        	$scope.terms = data;
+	        $scope.terms = data;
 	    	});
     };
     $scope.getKlasses = function(){

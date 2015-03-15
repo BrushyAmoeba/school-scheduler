@@ -1,0 +1,25 @@
+#overlayContent {
+	padding-bottom: 20px;
+	padding-left: 20px;
+	width: 500px;
+	text-align: left;
+}
+
+.logout i{
+	margin-right: 5px;
+	margin-left: 10px;
+}
+
+.navbar {
+	font-size: 20px;
+	font-family: 'Jura', sans-serif;
+	padding-top: 4px;
+}
+
+#searchbox{
+	height: 28px;
+}
+
+#scheduletitle{
+	height: 28px;
+}
