@@ -1,0 +1,50 @@
+{{extend 'layout.html'}}
+
+{{block head}}
+<script>
+  var users = {{=XML(userList)}};
+  var frequests = {{=XML(requestList)}};
+</script>
+
+  <script type="text/javascript" src="/scheduler/static/bower_components/angular-ui-calendar/src/calendar.js"></script>
+  <script type="text/javascript" src="/scheduler/static/bower_components/fullcalendar/fullcalendar.js"></script>
+  <script type="text/javascript" src="/scheduler/static/bower_components/fullcalendar/gcal.js"></script>
+  <script type="text/javascript" src="/scheduler/static/bower_components/moment/moment.js"></script>
+  <script type="text/javascript" src="/scheduler/static/bower_components/angular-ui.js"></script>
+  <script type="text/javascript" src="/scheduler/static/js/scheduler.js"></script>
+  <link rel="stylesheet" href="/scheduler/static/bower_components/fullcalendar/fullcalendar.css"/>
+{{end}}
+
+{{block center}}
+<div ng-app="scheduler" ng-controller="friendCtrl">
+	<div>
+		<h3>My Friends</h3>
+		
+		<h5 ng-show="frequests.length>0">Pending</h5>
+		<ul>
+			<li ng-repeat="f in frequests">{[{f.name}]}
+				<a ng-click="acceptFriend(f.id);">
+					<i style="color: green;" class="fa fa-user-plus"></i>
+				</a>
+				<a ng-click="denyFriend(f.id);">
+					<i style="color: red;" class="fa fa-times"></i>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div>
+		<h3>Add Friend</h3>
+		<input id="searchbox" type="text"></input>
+		<button id="searchbtn" class="btn btn-primary" ng-click="findUsers();">Search</button>
+	</div>
+
+    
+	<h3 ng-show="searchResults.length>0">Results</h3>
+    <div ng-repeat="result in searchResults">
+        <span>{[{result.name}]}</span>
+        <a class="addfriend" value="{[{result.id}]}" ng-click="addFriend(result.id);" ng-show="result.are_friends==false;">
+        	<i class="fa fa-plus"></i>
+		</a>
+    </div>
+</div>
+{{end}}

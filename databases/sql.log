@@ -7628,3 +7628,11 @@ success!
 success!
 success!
 success!
+timestamp: 2015-03-15T14:51:03.038570
+CREATE TABLE friends(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id1 INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    user_id2 INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    status INTEGER
+);
+success!

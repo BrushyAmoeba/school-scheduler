@@ -86,11 +86,14 @@
     h4 {font-family: 'Open Sans', sans-serif; }
     h5 {font-family: 'Open Sans', sans-serif; }
     h6 {font-family: 'Open Sans', sans-serif; }
+    button{font-family: 'Open Sans', sans-serif; }
+    li{list-style: none;}
   </style>
 </head>
 
 <body>
   <!-- Navbar ================================================== -->
+  {{if auth.user:}}
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="collapse navbar-collapse">
@@ -115,6 +118,7 @@
       </div>
     </div>
   </nav>
+  {{pass}}
 
   <div class="container">
     <!-- Masthead ================================================== -->

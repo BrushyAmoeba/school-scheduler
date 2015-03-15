@@ -12,7 +12,7 @@ app.controller('schedulerCtrl', function($scope, $http) {
     $(document).ready(function(){
       $scope.loadSched();
       //overlay($('#createNetwork').html());	
-      $(document).on('keyup', '#searchfield', function(event){
+      $(document).on('keyup', '#searchbox', function(event){
         if (event.which==13){
           $('#searchbtn').click();
           $('#searchbox').val('');
@@ -119,4 +119,50 @@ app.controller('schedulerCtrl', function($scope, $http) {
         },
 	  }
 	};
+});
+
+app.controller('friendCtrl', function($scope, $http) {
+  $scope.users = users;
+  $scope.frequests = frequests;
+  $(document).ready(function(){
+    $( "#searchbox" ).autocomplete({
+      source: $scope.users
+    });  
+    $(document).on('keyup', '#searchbox', function(event){
+      if (event.which==13){
+        $('#searchbtn').click();
+        $('#searchbox').val('');
+        $('.ui-autocomplete').hide();
+      }
+    });
+  });
+  $scope.findUsers = function(){
+    var input = $('#searchbox');
+    $http.get('/scheduler/schedule/findUsers?str=' + input.val())
+      .success(function(data, status, headers, config) {
+          $scope.searchResults = data;
+          input.val('');
+      });
+  }
+  $scope.addFriend = function(id){
+    $http.post('/scheduler/schedule/addFriend?id=' + id, {
+      user_id: id,
+    }).success(function(data, status, headers, config) {
+
+    });
+  }
+  $scope.acceptFriend = function(id){
+    $http.post('/scheduler/schedule/acceptFriend?id=' + id, {
+      user_id: id,
+    }).success(function(data, status, headers, config) {
+
+    });
+  }
+  $scope.denyFriend = function(id){
+    $http.post('/scheduler/schedule/denyFriend?id=' + id, {
+      user_id: id,
+    }).success(function(data, status, headers, config) {
+      
+    });
+  }
 });

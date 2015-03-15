@@ -21,6 +21,24 @@ def index():
     return locals()
 
 @auth.requires_login()
+def friends():
+    """
+    Friends: shows users friends and friend requests
+    """
+    userList = []
+    requestList = []
+    for u in db(db.auth_user).select():
+        userList.append(u.first_name + " " + u.last_name)
+    for r in db(db.friends.user_id2 == auth.user).select():
+        if r.status == 0:
+          friend = db(db.auth_user.id==r.user_id1).select().first()
+          requestList.append({
+            'name':friend.first_name + " " + friend.last_name,
+            'id':str(friend.id),
+          })
+    return locals()
+
+@auth.requires_login()
 def newSched():
     if request.env.request_method!='POST': raise HTTP(400)
     post = request.post_vars
@@ -145,3 +163,47 @@ def getTimeslots():
         timeslotList.append(timeslotDict)
   return json.dumps(timeslotList)
 
+def findUsers():
+  if request.env.request_method!='GET': raise HTTP(400)
+  query = reduce(lambda a,b:a&b,
+                        [db.auth_user.first_name.contains(k)|db.auth_user.last_name.contains(k) \
+                             for k in request.vars.str.split()])
+  people = db(query).select(orderby=db.auth_user.first_name|db.auth_user.last_name)
+  peopleList = []
+  for person in people:
+    are_friends = False
+    if db(db.friends.user_id1==person.id).select():
+      are_friends = True
+    if db(db.friends.user_id2==person.id).select():
+      are_friends = True
+    peopleDict = {
+      "name":person.first_name + " " + person.last_name,
+      "id":person.id,
+      "are_friends": are_friends,
+    }
+    peopleList.append(peopleDict)   
+  return json.dumps(peopleList)
+
+@auth.requires_login()
+def addFriend():
+    if request.env.request_method!='POST': raise HTTP(400)
+    post = request.post_vars
+    user_id2 = post.user_id
+    db.friends.insert(user_id1 = auth.user, user_id2 = user_id2, status=0)
+    return
+
+@auth.requires_login()
+def acceptFriend():
+    if request.env.request_method!='POST': raise HTTP(400)
+    post = request.post_vars
+    user_id1 = post.user_id
+    db(db.friends.user_id1==user_id1).update(status=1)
+    return
+
+@auth.requires_login()
+def denyFriend():
+    if request.env.request_method!='POST': raise HTTP(400)
+    post = request.post_vars
+    user_id1 = post.user_id
+    db(db.friends.user_id1==user_id1).delete()
+    return

@@ -63,3 +63,9 @@ db.define_table('schedule_class',
     Field('schedule_id', 'reference schedule'),
     Field('klass_id', 'reference klass')
     )
+
+db.define_table('friends',
+    Field('user_id1', 'reference auth_user'),
+    Field('user_id2', 'reference auth_user'),
+    Field('status', 'integer')
+    )
