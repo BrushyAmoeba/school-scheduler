@@ -21,7 +21,8 @@ app.controller('schedulerCtrl', function($scope, $http) {
     });
     $scope.terms = [];
     $scope.klasses = [];
-    $scope.schedules = [];
+    $scope.schedules = schedules;
+    console.log(schedules);
     $scope.newSched = function(){
     	var input = $('#scheduletitle');
     	var defalt = $('#defcheck');
@@ -33,8 +34,10 @@ app.controller('schedulerCtrl', function($scope, $http) {
   			title: input.val(),
   			defalt: def,
   		}).success(function(data, status, headers, config) {
-  			opt = $('<option/>').html(input.val()).appendTo('#schedselect');
-  			opt.attr('value', data);
+        $scope.schedules.push({
+          title:input.val(),
+          id: data,
+        })
         input.val('');
         defalt.removeAttr('checked');
   		});

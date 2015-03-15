@@ -1,3 +1,10 @@
+def index():
+    """
+    Index: shows user schedules
+    """
+    redirect(URL('scheduler', 'schedule'))
+    return locals()
+
 def user():
     """
     exposes:

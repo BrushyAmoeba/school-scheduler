@@ -1,6 +1,10 @@
 {{extend 'layout.html'}}
 
 {{block head}}
+<script>
+  var schedules = {{=XML(schedList)}};
+</script>
+
   <script type="text/javascript" src="/scheduler/static/bower_components/angular-ui-calendar/src/calendar.js"></script>
   <script type="text/javascript" src="/scheduler/static/bower_components/fullcalendar/fullcalendar.js"></script>
   <script type="text/javascript" src="/scheduler/static/bower_components/fullcalendar/gcal.js"></script>
@@ -33,20 +37,20 @@
     <button id="searchbtn" class="btn btn-success" ng-click="addClassToSched();">Add Event</button>
   </div>
 
-  <div id="ourCal" ng-cloak> 
-    <h2>My Schedules</h2>
+  <div>
     <input id="scheduletitle" placeholder="schedule title" style="width:200px;" type="text"></input>
     <input id="defcheck" type="checkbox">Make default?<br>
     <button class="btn btn-primary" ng-click="newSched();">New Schedule</button><br><br><br>
+  </div>
+
+  <div id="ourCal" ng-show="schedules.length>0" ng-cloak> 
+    <h2>My Schedules</h2>
     Select Schedule:
     <select id="schedselect" ng-change="loadSched();" ng-model="scheduleSelect" ng-init="scheduleSelect=-1">
       <option value="-1">Default</option>
-      {{for s in schedList:}}
-      <option ng-value="{{=s['id']}}">{{=s['title']}}</option>
-      {{pass}}
+      <option ng-value="schedule.id" ng-repeat="schedule in schedules">{[{schedule.title}]}</option>
     </select><br>
     <div id="ourcal" style="margin-top:-20px;" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
-
   </div>
 </div>
 {{end}}

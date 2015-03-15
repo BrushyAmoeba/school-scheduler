@@ -13,9 +13,10 @@ def index():
     sched_ids = db(db.schedule_user.user_id==auth.user_id).select()
     for s in sched_ids:
         sched = db(db.schedule.id==s.schedule_id).select().first()
+        print(sched)
         schedList.append({
             'title': sched.title,
-            'id': sched.id,
+            'id': str(sched.id),
         })
     return locals()
 
