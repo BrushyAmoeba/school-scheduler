@@ -124,6 +124,7 @@ app.controller('schedulerCtrl', function($scope, $http) {
 app.controller('friendCtrl', function($scope, $http) {
   $scope.users = users;
   $scope.frequests = frequests;
+  $scope.friends = friends;
   $(document).ready(function(){
     $( "#searchbox" ).autocomplete({
       source: $scope.users
@@ -162,7 +163,7 @@ app.controller('friendCtrl', function($scope, $http) {
     $http.post('/scheduler/schedule/denyFriend?id=' + id, {
       user_id: id,
     }).success(function(data, status, headers, config) {
-      
+
     });
   }
 });

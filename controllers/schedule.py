@@ -27,6 +27,7 @@ def friends():
     """
     userList = []
     requestList = []
+    friendList = []
     for u in db(db.auth_user).select():
         userList.append(u.first_name + " " + u.last_name)
     for r in db(db.friends.user_id2 == auth.user).select():
@@ -36,6 +37,20 @@ def friends():
             'name':friend.first_name + " " + friend.last_name,
             'id':str(friend.id),
           })
+    for f in db(db.friends).select():
+        if f.user_id1 == auth.user.id or f.user_id2 == auth.user.id:
+          if f.user_id1 == auth.user.id and f.status==1:
+            friend = db(db.auth_user.id==f.user_id2).select().first()
+            friendList.append({
+              'name':friend.first_name + " " + friend.last_name,
+              'id':str(friend.id),
+            })
+          if f.user_id2 == auth.user.id and f.status==1:
+            friend = db(db.auth_user.id==f.user_id1).select().first()
+            friendList.append({
+              'name':friend.first_name + " " + friend.last_name,
+              'id':str(friend.id),
+            })
     return locals()
 
 @auth.requires_login()
