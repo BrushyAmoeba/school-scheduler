@@ -187,10 +187,16 @@ def findUsers():
   peopleList = []
   for person in people:
     are_friends = False
+    if person.id == auth.user.id:
+      are_friends = True
     if db(db.friends.user_id1==person.id).select():
-      are_friends = True
+      friend = db(db.friends.user_id1==person.id).select().first()
+      if friend.user_id2 == auth.user.id:
+        are_friends = True
     if db(db.friends.user_id2==person.id).select():
-      are_friends = True
+      friend = db(db.friends.user_id2==person.id).select().first()
+      if friend.user_id1 == auth.user.id:
+        are_friends = True
     peopleDict = {
       "name":person.first_name + " " + person.last_name,
       "id":person.id,
