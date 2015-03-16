@@ -1,0 +1,34 @@
+{{extend 'layout.html'}}
+
+{{block head}}
+<script>
+  var schedules = {{=XML(schedList)}};
+</script>
+
+  <script type="text/javascript" src="/scheduler/static/bower_components/angular-ui-calendar/src/calendar.js"></script>
+  <script type="text/javascript" src="/scheduler/static/bower_components/fullcalendar/fullcalendar.js"></script>
+  <script type="text/javascript" src="/scheduler/static/bower_components/fullcalendar/gcal.js"></script>
+  <script type="text/javascript" src="/scheduler/static/bower_components/moment/moment.js"></script>
+  <script type="text/javascript" src="/scheduler/static/bower_components/angular-ui.js"></script>
+  <script type="text/javascript" src="/scheduler/static/js/scheduler.js"></script>
+  <link rel="stylesheet" href="/scheduler/static/bower_components/fullcalendar/fullcalendar.css"/>
+{{end}}
+
+{{block center}}
+<div ng-app="scheduler" ng-controller="schedulerCtrl">
+  <div ng-show="schedules.length==0" ng-cloak>
+    <h3>{{=user_name}} has no schedules.</h3>
+  </div>
+  <div id="ourCal" ng-show="schedules.length>0" ng-cloak> 
+    <h2>{{=user_name}}'s Schedules</h2>
+    
+
+    Select Schedule:
+    <select id="schedselect" ng-change="loadSched();" ng-model="scheduleSelect" ng-init="scheduleSelect=-1">
+      <option value="-1">Default</option>
+      <option ng-value="schedule.id" ng-repeat="schedule in schedules">{[{schedule.title}]}</option>
+    </select><br>
+    <div id="ourcal" style="margin-top:-20px;" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+  </div>
+</div>
+{{end}}

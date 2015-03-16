@@ -13,7 +13,6 @@ def index():
     sched_ids = db(db.schedule_user.user_id==auth.user_id).select()
     for s in sched_ids:
         sched = db(db.schedule.id==s.schedule_id).select().first()
-        print(sched)
         schedList.append({
             'title': sched.title,
             'id': str(sched.id),
@@ -53,6 +52,23 @@ def friends():
             })
     return locals()
 
+def viewsched():
+    schedList = []
+    user_id = request.vars.id
+    user = db(db.auth_user.id==user_id).select().first()
+    if not user:
+      return
+    else:
+      user_name = user.first_name + " " + user.last_name
+      sched_ids = db(db.schedule_user.user_id==user_id).select()
+      for s in sched_ids:
+          sched = db(db.schedule.id==s.schedule_id).select().first()
+          schedList.append({
+              'title': sched.title,
+              'id': str(sched.id),
+          })
+    return locals()
+
 @auth.requires_login()
 def newSched():
     if request.env.request_method!='POST': raise HTTP(400)
@@ -81,7 +97,6 @@ def addClassToSched():
       schedule_user = db(db.schedule_user.user_id==auth.user_id).select()
       for s in schedule_user:
         sched = db(db.schedule.id==s.id).select().first()
-        print(sched_id)
         if sched.defalt==True:
           sched_id = sched.id
           break
@@ -120,14 +135,12 @@ def loadSched():
             "start_time":timeslot.start_time.isoformat(),
             "end_time":timeslot.end_time.isoformat(),
           })
-    print(klassesList)
     return json.dumps(klassesList)
 
 @auth.requires_login()
 def getTerms():
     if request.env.request_method!='GET': raise HTTP(400)
     network_id =request.vars.id
-    print(network_id)
     terms = db(db.network_term.network_id==network_id).select()
     termList = []
     for t in terms:

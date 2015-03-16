@@ -23,7 +23,7 @@
 		<ul>
 			<li ng-repeat="friend in friends">
 				{[{friend.name}]} 
-				<a>View Schedules</a>
+				<a ng-href="/scheduler/schedule/viewsched?id={[{friend.id}]}">View Schedules</a>
 			</li>
 		</ul>
 		<h5 ng-show="frequests.length>0">Pending</h5>
