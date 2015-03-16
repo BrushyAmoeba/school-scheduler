@@ -19,7 +19,7 @@
 {{block center}}
 <div ng-app="scheduler" ng-controller="friendCtrl">
 	<div>
-		<h3>My Friends</h3>
+		<h3 ng-show="friends.length>0;">My Friends</h3>
 		<ul>
 			<li ng-repeat="friend in friends">
 				{[{friend.name}]} 
@@ -48,9 +48,7 @@
 	<h3 ng-show="searchResults.length>0">Results</h3>
     <div ng-repeat="result in searchResults">
         <span>{[{result.name}]}</span>
-        <a class="addfriend" value="{[{result.id}]}" ng-click="addFriend(result.id);" ng-show="result.are_friends==false;">
-        	<i class="fa fa-plus"></i>
-		</a>
+    	<i class="fa fa-plus addfriend" value="{[{result.id}]}" ng-click="addFriend($event, result.id);" ng-show="result.are_friends==false;"></i>
     </div>
 </div>
 {{end}}

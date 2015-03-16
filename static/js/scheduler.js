@@ -55,7 +55,11 @@ app.controller('schedulerCtrl', function($scope, $http) {
     };
     $scope.loadSched = function (){
     	var id = $scope.scheduleSelect;
-    	$http.get('/scheduler/schedule/loadSched?id=' + id)
+      var data_str = "id=" + id;
+      if (id==-1){
+        data_str+="&user="+user_id;
+      }
+    	$http.get('/scheduler/schedule/loadSched?' + data_str)
     		.success(function(data, status, headers, config) {
     			angular.element('#ourcal').fullCalendar( 'removeEventSource', $scope.events);
     			$scope.events=[];
@@ -137,6 +141,7 @@ app.controller('friendCtrl', function($scope, $http) {
       }
     });
   });
+
   $scope.findUsers = function(){
     var input = $('#searchbox');
     $http.get('/scheduler/schedule/findUsers?str=' + input.val())
@@ -145,25 +150,27 @@ app.controller('friendCtrl', function($scope, $http) {
           input.val('');
       });
   }
-  $scope.addFriend = function(id){
-    $http.post('/scheduler/schedule/addFriend?id=' + id, {
+  $scope.addFriend = function(event, id){
+    $http.post('/scheduler/schedule/addFriend', {
       user_id: id,
     }).success(function(data, status, headers, config) {
-
+      $(event.target).remove();
     });
   }
   $scope.acceptFriend = function(id){
-    $http.post('/scheduler/schedule/acceptFriend?id=' + id, {
+    $http.post('/scheduler/schedule/acceptFriend', {
       user_id: id,
     }).success(function(data, status, headers, config) {
-
+      friend = _.findWhere($scope.frequests,{'id':id});
+      $scope.frequests.splice($scope.frequests.indexOf(friend),1);
     });
   }
   $scope.denyFriend = function(id){
-    $http.post('/scheduler/schedule/denyFriend?id=' + id, {
+    $http.post('/scheduler/schedule/denyFriend', {
       user_id: id,
     }).success(function(data, status, headers, config) {
-
+      friend = _.findWhere($scope.frequests,{'id':id});
+      $scope.frequests.splice($scope.frequests.indexOf(friend),1);
     });
   }
 });

@@ -5,6 +5,7 @@ def index():
     """
     Index: shows user schedules
     """
+    user_id = auth.user.id
     classList = []
     schedList = []
     for c in db(db.klass).select():
@@ -111,9 +112,10 @@ def addClassToSched():
 @auth.requires_login()
 def loadSched():
     if request.env.request_method!='GET': raise HTTP(400)
-    sched_id = request.vars.id
-    if int(request.vars.id)==-1:
-      sched_user = db(db.schedule_user.user_id==auth.user_id).select()
+    sched_id = int(request.vars.id)
+    if sched_id==-1:
+      user_id = int(request.vars.user)
+      sched_user = db(db.schedule_user.user_id==user_id).select()
       for s in sched_user:
         sched = db(db.schedule.id==s.id).select().first()
         if sched.defalt==True:
@@ -231,7 +233,7 @@ def acceptFriend():
     if request.env.request_method!='POST': raise HTTP(400)
     post = request.post_vars
     user_id1 = post.user_id
-    db(db.friends.user_id1==user_id1).update(status=1)
+    db(db.friends.user_id1==user_id1 and db.friends.user_id2==auth.user).update(status=1)
     return
 
 @auth.requires_login()
@@ -239,7 +241,7 @@ def denyFriend():
     if request.env.request_method!='POST': raise HTTP(400)
     post = request.post_vars
     user_id1 = post.user_id
-    db(db.friends.user_id1==user_id1).delete()
+    db(db.friends.user_id1==user_id1 and db.friends.user_id2==auth.user).delete()
     return
 
 @auth.requires_login()

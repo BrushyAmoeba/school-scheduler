@@ -47,7 +47,7 @@ app.controller('networkCtrl', function($scope, $http) {
     $http.delete('/scheduler/manager/removeNetwork?id=' + network_id)
       .success(function(data, status, headers, config) {
         console.log('great success');
-        network = _.findWhere($scope.networks, {network_id: network_id});
+        network = _.findWhere($scope.networks, {'network_id': network_id});
         $scope.networks.splice($scope.networks.indexOf(network),1);
       });
   }
