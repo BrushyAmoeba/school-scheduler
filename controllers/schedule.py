@@ -228,3 +228,7 @@ def denyFriend():
     user_id1 = post.user_id
     db(db.friends.user_id1==user_id1).delete()
     return
+
+@auth.requires_login()
+def logout():
+    auth.logout(next=URL('schedule', 'index'))
